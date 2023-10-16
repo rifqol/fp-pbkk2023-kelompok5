@@ -1,0 +1,1 @@
+<a href="{{ url($url) }}" class="">{{ $name }}</a>
