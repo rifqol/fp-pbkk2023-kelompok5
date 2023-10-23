@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Modules\Review\Domain\Service\Repository\ProductReviewRepositoryInterface;
+use App\Http\Modules\Review\Infrastructure\Service\ProductReviewRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
-        
+        $this->app->bind(ProductReviewRepositoryInterface::class, ProductReviewRepository::class);
     }
 }
