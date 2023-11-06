@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,7 +12,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('dashboard.users')->with('users', User::all());
+        $users = Cache::remember('users', 120, function() {
+            return User::all();
+        });
+        return view('dashboard.users')->with('users', $users);
     }
 
     public function create()
