@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\RandomController;
 use App\Http\Controllers\UserController;
@@ -37,6 +38,11 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('users', [UserController::class, 'index']);
 
+    Route::get('chats', [ChatController::class, 'index']);
+    Route::get('chats/{id}', [ChatController::class, 'chat'])->whereNumber('id');
+    Route::post('chats/{id}/send', [ChatController::class, 'store'])->whereNumber('id');
+    Route::get('chats/{id}/reload', [ChatController::class, 'reloadChat'])->whereNumber('id');
+
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
@@ -45,3 +51,4 @@ Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'attemptLogin']);
 Route::get('register', [AuthController::class, 'register']);
 Route::post('register', [UserController::class, 'store']);
+

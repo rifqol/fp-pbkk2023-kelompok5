@@ -26,6 +26,9 @@
         <a href="{{ url('users') }}" class="{{ (request()->is('users')) ? 'bg-green-500' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-2 shadow-md hover:ring-2 hover:ring-green-900">
             <x-heroicon-o-user-circle class="w-5 h-auto"/> Users
         </a>
+        <a href="{{ url('chats') }}" class="{{ (request()->is('chats')) ? 'bg-green-500' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-2 shadow-md hover:ring-2 hover:ring-green-900">
+            <x-heroicon-o-user-circle class="w-5 h-auto"/> Chats
+        </a>
         <form action="{{ url('logout') }}" class="flex flex-col gap-2 mt-auto self-center" method="POST">
             @csrf
             <x-heroicon-o-x-mark class="self-center w-8" id="sidebar-close"/>
