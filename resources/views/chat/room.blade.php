@@ -4,19 +4,34 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<div class="chat">
+<div class="chat max-h-[90vh] overflow-x-auto">
 
 </div>
 
-<form id="send_chat" action="{{url('/chats/' . $receiver_id . '/send')}}" class="flex flex-col gap-2" method="post" enctype="multipart/form-data" novalidate>
+<!-- <form id="send_chat" action="{{url('/chats/' . $receiver_id . '/send')}}" class="flex flex-col gap-2 fixed right-2 bottom-0 w-[75%] h-[20vh]" method="post" enctype="multipart/form-data" novalidate>
     @csrf
-    <label for="message">Message</label>
-    <input type="message" name="message" class="rounded-md ring-gray-500 ring-2 p-2 bg-gray-100 drop-shadow-lg mb-4" value="{{old('message')}}" id="message">
-    @error('message')
-        <h5 class="text-red-400 font-thin text-sm mt-[-1rem]">{{ $message }}</h5>
-    @enderror
+        <input type="message" name="message" class="rounded-md ring-gray-500 ring-2 p-2 bg-gray-100 drop-shadow-lg mb-4" value="{{old('message')}}" id="message">
+        @error('message')
+            <h5 class="text-red-400 font-thin text-sm mt-[-1rem]">{{ $message }}</h5>
+        @enderror    
     <input type="submit" class="bg-black rounded-md text-white w-1/2 h-10 self-center mt-5" value="Send">
+</form> -->
+
+<form id="send_chat" action="{{ url('/chats/' . $receiver_id . '/send') }}" class="flex flex-col gap-2 fixed right-2 bottom-3 w-[75%] max-h-[40vh]" method="post" enctype="multipart/form-data" novalidate>
+    @csrf
+    <div class="flex flex-wrap gap-2">
+        <input type="message" name="message" class="rounded-md ring-gray-500 ring-2 p-2 bg-gray-100 drop-shadow-lg w-[92.5%]" value="{{ old('message') }}" id="message">
+        @error('message')
+            <h5 class="text-red-400 font-thin text-sm mt-[-1rem]">{{ $message }}</h5>
+        @enderror
+        <button type="submit" class="bg-none flex justify-center items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
+                <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
+            </svg>
+        </buttor>
+    </div>
 </form>
+
 
 <script>
     $.ajaxSetup({
