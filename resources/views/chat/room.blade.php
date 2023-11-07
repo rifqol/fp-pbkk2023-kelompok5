@@ -4,6 +4,30 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+<style>
+.message-sent {
+    color: #fff; /* White text */
+    border-radius: 15px; /* Rounded corners */
+    padding: 10px; /* Spacing inside the bubble */
+    max-width: fit-content;
+    margin: 5px; /* Spacing between bubbles */
+    margin-left: auto;
+    text-align: right; 
+    max-height: 10vh;
+}
+
+    .message-received {
+    background-color: #f0f0f0; /* Light gray color */
+    border-radius: 15px; /* Rounded corners */
+    padding: 10px; /* Spacing inside the bubble */
+    max-width: fit-content;
+    margin: 5px; /* Spacing between bubbles */
+    margin-right: auto;
+    text-align: left;
+    max-height: 10vh;
+}
+</style>
+
 <div class="chat max-h-[90vh] overflow-x-auto">
 
 </div>

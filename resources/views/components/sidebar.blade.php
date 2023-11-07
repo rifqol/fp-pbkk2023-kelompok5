@@ -4,18 +4,13 @@
     }
 
     #sidebar {
-        transition: 0.3s;
-        position: sticky;
-        top: 0;
-        z-index: 50; 
+        transition: 0.3s
     }
 
     nav a {
         transition: 0.2s
     }
-
 </style>
-
 <div class="flex flex-col bg-green-500 h-screen p-4 whitespace-[wrap] z-50" id="sidebar">
     <span class="">
         <h1 class="mt-2 mb-4 font-extrabold text-center text-xl">E-Commerce App</h1>

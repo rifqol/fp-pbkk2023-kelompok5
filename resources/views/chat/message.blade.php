@@ -5,3 +5,4 @@
         <div class="message-received">{{$message->message}}</div>
     @endif
 @endforeach
+
