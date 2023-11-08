@@ -18,7 +18,10 @@ class ChatController extends Controller
         $users = DB::table('users')
             ->join('chats', function(JoinClause $join) {
                 $join->on('users.id', '=', 'chats.sender_id')->orOn('users.id', '=', 'chats.receiver_id');
-            })->select('users.*')->distinct()->where('users.id', '!=', $user->id)->get();
+            })->select('users.*')->distinct()
+            ->where('chats.sender_id', '=', $user->id)->where('users.id', '!=', $user->id)
+            ->orWhere('chats.receiver_id', '=', $user->id)->where('users.id', '!=', $user->id)
+            ->get();
         // dd($users);
         return view('chat.index')->with(['users' => $users]);
     }
