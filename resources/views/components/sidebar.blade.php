@@ -11,7 +11,7 @@
         transition: 0.2s
     }
 </style>
-<div class="flex flex-col bg-green-300 h-screen p-4 whitespace-[wrap] z-50" id="sidebar">
+<div class="flex flex-col bg-green-500 h-screen p-4 whitespace-[wrap] z-50" id="sidebar">
     <span class="">
         <h1 class="mt-2 mb-4 font-extrabold text-center text-xl">E-Commerce App</h1>
         <div class="flex mb-2 whitespace-nowrap">
@@ -25,6 +25,9 @@
         </a>
         <a href="{{ url('users') }}" class="{{ (request()->is('users')) ? 'bg-green-500' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-2 shadow-md hover:ring-2 hover:ring-green-900">
             <x-heroicon-o-user-circle class="w-5 h-auto"/> Users
+        </a>
+        <a href="{{ url('chats') }}" class="{{ (request()->is('chats')) ? 'bg-green-500' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-2 shadow-md hover:ring-2 hover:ring-green-900">
+            <x-heroicon-o-user-circle class="w-5 h-auto"/> Chats
         </a>
         <form action="{{ url('logout') }}" class="flex flex-col gap-2 mt-auto self-center" method="POST">
             @csrf

@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
 
         User::factory(20)->create();
 
+        $users = User::all();
+
+        
+
         // table->id();
         //     $table->string('name');
         //     $table->string('username');
