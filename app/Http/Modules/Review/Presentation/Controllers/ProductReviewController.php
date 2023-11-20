@@ -27,7 +27,6 @@ class ProductReviewController extends Controller
         $create_request = new CreateProductReviewRequest(
             $request->rating,
             $request->review,
-            // $user->id,
             $request->user_id,
             $request->product_id,
         );

@@ -57,10 +57,6 @@ class ChatController extends Controller
     public function chat(Request $request, $id)
     {
         $user = $request->user();
-        // $messages = Chat::with(['sender', 'receiver'])->where('receiver_id', $id)->where('sender_id', $user->id)
-        //     ->orWhere('sender_id', $id)->where('receiver_id', $user->id)
-        //     ->orderBy('created_at')
-        //     ->get();
         return view('chat.room')->with(['receiver_id' => $id]);
     }
 
