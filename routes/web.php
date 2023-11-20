@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RandomController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -38,10 +39,16 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('users', [UserController::class, 'index']);
 
-    Route::get('chats', [ChatController::class, 'index']);
-    Route::get('chats/{id}', [ChatController::class, 'chat'])->whereNumber('id');
-    Route::post('chats/{id}/send', [ChatController::class, 'store'])->whereNumber('id');
-    Route::get('chats/{id}/reload', [ChatController::class, 'reloadChat'])->whereNumber('id');
+    Route::group(['prefix' => 'chats'], function() {
+        Route::get('/', [ChatController::class, 'index']);
+        Route::get('{id}', [ChatController::class, 'chat'])->whereNumber('id');
+        Route::post('{id}/send', [ChatController::class, 'store'])->whereNumber('id');
+        Route::get('{id}/reload', [ChatController::class, 'reloadChat'])->whereNumber('id');
+    });
+
+    Route::group(['prefix' => 'products'], function() {
+        Route::get('/', [ProductController::class, 'index']);
+    });
 
     Route::post('logout', [AuthController::class, 'logout']);
 });

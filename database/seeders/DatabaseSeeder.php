@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Product;
+use App\Models\ProductImage;
+use App\Models\ProductReview;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -22,23 +25,13 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
 
-        User::factory(20)->create();
+        // User::factory(1)->create();
 
-        $users = User::all();
-
-        
-
-        // table->id();
-        //     $table->string('name');
-        //     $table->string('username');
-        //     $table->string('email')->unique();
-        //     $table->string('phone');
-        //     $table->timestamp('email_verified_at')->nullable();
-        //     $table->string('photo_url')->nullable();
-        //     $table->string('password');
-        //     $table->string('bank_actnumber')->nullable();
-        //     $table->boolean('is_admin')->default(false);
-        //     $table->rememberToken();
-        //     $table->timestamps();
+        User::factory(10)->create()->each(function ($user) {
+            Product::factory(rand(1,3))->create(['seller_id' => $user->id])->each(function ($product) {
+                ProductImage::factory(rand(1,3))->create(['product_id' => $product->id]);
+                ProductReview::factory(rand(1,3))->create(['user_id' => 1, 'product_id' => $product->id]);
+            });
+        });
     }
 }
