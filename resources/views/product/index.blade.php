@@ -1,16 +1,35 @@
 @extends('app-layout')
 
 @section('main')
-<div class="flex flex-col gap-3 p-4 min-h-full w-full  bg-slate-200">
-    <h1 class="text-2xl font-extrabold">Product List</h1>
-    <ul class="flex flex-col gap-4 flex-1 bg-green-300 rounded-xl p-4">
-        @foreach ($products as $product)
-        <li class="bg-green-500 rounded-xl p-2 drop-shadow-lg font-bold">
-            <h2 class="flex gap-4 text-md"><img src="{{$product->images->toArray()[0]['image_url']}}" class="rounded-full w-12 h-12 object-cover shadow-md" alt="">
-                <p class="self-center text-ellipsis whitespace-nowrap overflow-hidden w-1/2">{{$product->name}}</p>
-            </h2>
-        </li>
-        @endforeach
-    </ul>
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<style>
+    /* Tambahkan CSS untuk produk grid 5x5 */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        padding: 5px;
+    }
+
+    .product-card {
+        border: 1px solid #ddd;
+        padding: 5px;
+        text-align: center;
+    }
+</style>
+
+<div class="product-grid">
+    @foreach ($products as $product)
+        <div class="product-card">
+            <img src="{{$product->images[0]['image_url']}}" class="w-full h-32 object-cover mb-4">
+            <h2 class="text-lg font-semibold">{{ $product->name }}</h2>
+            <p class="text-gray-600">{{ \Illuminate\Support\Str::limit($product->description, 50) }}</p>
+            <p class="text-green-500">Rp.{{ $product->price }}</p>
+        </div>
+    @endforeach
 </div>
+
+
 @endsection
