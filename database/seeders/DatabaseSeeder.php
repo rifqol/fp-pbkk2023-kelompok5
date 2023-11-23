@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Add regions data
+        $this->call(RegionsTableSeeder::class);
+
         User::factory()->create([
             'name' => 'admin',
             'username' => 'admin',

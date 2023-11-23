@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,7 +33,8 @@ class AuthController extends Controller
 
     public function register()
     {
-        return view('form');
+        $provinces = Region::whereRaw('CHAR_LENGTH(code) = 2')->get();
+        return view('form')->with(['provinces' => $provinces]);
     }
 
     public function logout(Request $request)

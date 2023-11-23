@@ -5,6 +5,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RandomController;
+use App\Http\Controllers\RegionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -48,9 +49,14 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', [ProductController::class, 'index']);
+        Route::get('{id}', [ProductController::class, 'show'])->whereNumber('id');
     });
 
     Route::post('logout', [AuthController::class, 'logout']);
+});
+
+Route::group(['prefix' => 'regions'], function() {
+    Route::get('/', [RegionController::class, 'index']);
 });
 
 

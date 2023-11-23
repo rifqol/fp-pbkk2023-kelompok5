@@ -26,6 +26,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
+        'region_code',
         'bank_actnumber',
         'photo_url',
     ];
@@ -49,4 +50,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region_code', 'code');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

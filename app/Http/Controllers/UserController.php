@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserCreateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -23,24 +24,20 @@ class UserController extends Controller
         return view('form');
     }
 
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|min:4|max:255',
-            'sussiness' => 'required',
-            'photo' => 'required|mimes:jpg,png,jpeg|max:2048'
-        ]);
+        $data = $request->validated();
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'sussiness' => floatval($request->sussiness),
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'password' => Hash::make($data['password']),
+            'region_code' => $data['region_code'],
         ]);
         
-        $path = Storage::put('public/images', $request->photo);
+        $path = Storage::put('public/images', $data['photo']);
         $user->photo_url = url(Storage::url($path));
         $user->save();
 

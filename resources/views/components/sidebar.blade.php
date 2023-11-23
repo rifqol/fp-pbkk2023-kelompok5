@@ -7,11 +7,11 @@
         transition: 0.3s
     }
 
-    nav a {
+    /* nav a {
         transition: 0.2s
-    }
+    } */
 </style>
-<div class="flex flex-col bg-green-500 h-screen p-4 whitespace-[wrap] z-50" id="sidebar">
+<div class="flex flex-col bg-slate-50 h-screen p-4 whitespace-[wrap] z-50" id="sidebar">
     <span class="">
         <h1 class="mt-2 mb-4 font-extrabold text-center text-xl">E-Commerce App</h1>
         <div class="flex mb-2 whitespace-nowrap">
@@ -19,17 +19,17 @@
             <h2 class="self-center text-ellipsis overflow-hidden ml-2 drop-shadow-sm" id="user-name">{{Auth::user()->name}}</h2>
         </div>
     </span>
-    <nav class="flex flex-col gap-2 h-full shadow-[inset_0px_45px_10px_-50px] w-[calc(100%+2rem)] pt-5 pl-4 pr-2 self-center">
-        <a href="{{ url('dashboard') }}" class="{{ (request()->is('dashboard')) ? 'bg-green-500' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-2 shadow-md hover:ring-2 hover:ring-green-900">
+    <nav class="flex flex-col gap-3 h-full shadow-[inset_0px_45px_10px_-50px] w-[calc(100%+2rem)] pt-5 pl-4 pr-2 self-center">
+        <a href="{{ url('dashboard') }}" class="{{ (request()->is('dashboard')) ? 'bg-green-300' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
             <x-heroicon-o-home class="w-5 h-auto"/> Home
         </a>
-        <a href="{{ url('products') }}" class="{{ (request()->is('products')) ? 'bg-green-500' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-2 shadow-md hover:ring-2 hover:ring-green-900">
+        <a href="{{ url('products') }}" class="{{ (request()->is('products')) || request()->is('products/*') ? 'bg-green-300' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
             <x-heroicon-o-user-circle class="w-5 h-auto"/> Products
         </a>
-        <a href="{{ url('users') }}" class="{{ (request()->is('users')) ? 'bg-green-500' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-2 shadow-md hover:ring-2 hover:ring-green-900">
+        <a href="{{ url('users') }}" class="{{ (request()->is('users')) ? 'bg-green-300' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
             <x-heroicon-o-user-circle class="w-5 h-auto"/> Users
         </a>
-        <a href="{{ url('chats') }}" class="{{ (request()->is('chats')) ? 'bg-green-500' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-2 shadow-md hover:ring-2 hover:ring-green-900">
+        <a href="{{ url('chats') }}" class="{{ (request()->is('chats')) || request()->is('chats/*') ? 'bg-green-300' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
             <x-heroicon-o-user-circle class="w-5 h-auto"/> Chats
         </a>
         <form action="{{ url('logout') }}" class="flex flex-col gap-2 mt-auto self-center" method="POST">
