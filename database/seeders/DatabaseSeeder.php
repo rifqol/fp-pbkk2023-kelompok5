@@ -31,9 +31,9 @@ class DatabaseSeeder extends Seeder
         // User::factory(1)->create();
 
         User::factory(10)->create()->each(function ($user) {
-            Product::factory(rand(1,3))->create(['seller_id' => $user->id])->each(function ($product) {
+            Product::factory(rand(1,10))->create(['seller_id' => $user->id])->each(function ($product) {
                 ProductImage::factory(rand(1,3))->create(['product_id' => $product->id]);
-                ProductReview::factory(rand(1,3))->create(['user_id' => 1, 'product_id' => $product->id]);
+                ProductReview::factory(rand(1,5))->create(['user_id' => 1, 'product_id' => $product->id]);
             });
         });
     }
