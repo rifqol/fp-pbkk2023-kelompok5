@@ -26,7 +26,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'sonwukong233@gmail.com',
             'phone' => '081081081081',
             'is_admin' => true,
-        ]);
+        ])->each(function($user) {
+            Product::factory(rand(1,10))->create(['seller_id' => $user->id])->each(function ($product) {
+                ProductImage::factory(rand(1,3))->create(['product_id' => $product->id]);
+                ProductReview::factory(rand(1,5))->create(['user_id' => 1, 'product_id' => $product->id]);
+            });
+        });
 
         // User::factory(1)->create();
 

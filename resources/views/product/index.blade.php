@@ -8,7 +8,7 @@
     <form>
         <div class="flex gap-2">
             <input type="text" class="p-2 border rounded-md w-full" name="q">
-            <button type="submit" class="p-2 border rounded-md bg-green-400 text-white w-1/12">Search</button>
+            <button type="submit" class="p-2 border rounded-md bg-green-500 text-white w-1/12">Search</button>
         </div>
     </form>
     <section id="users_list" class="flex flex-col">
@@ -17,11 +17,11 @@
             @if ($users->count() == 0)
             <span>Oops... We didn't find what you are looking for.</span>
             @else
-            <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-cols-4 gap-5">
             @foreach ($users as $user)
-                <div class="flex border text-center rounded-md shadow-md bg-white p-4">
+                <div class="flex border text-center rounded-md shadow-md bg-white p-4 w-full">
                     <img src="{{$user->photo_url}}" class="h-20 w-20 self-center rounded-full object-cover">
-                    <div class="flex flex-col self-center ml-auto">
+                    <div class="flex flex-col self-center mx-auto">
                         <span>{{$user->name}}</span>
                         <span class="flex self-center gap-2">
                             <x-heroicon-s-map-pin class="h-5"/> {{ \Illuminate\Support\Str::limit($user->region->name, 50) }}

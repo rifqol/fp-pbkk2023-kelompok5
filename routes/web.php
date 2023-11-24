@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RandomController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,9 +31,11 @@ Route::group(['middleware' => 'auth'], function() {
         return redirect('/dashboard');
     });
     
-    Route::get('dashboard', function () {
-        return view('dashboard.home');
+    Route::group(['prefix' => 'dashboard'], function() {
+        Route::get('/', [UserController::class, 'dashboard']);
+        Route::get('products', [ProductController::class, 'userIndex']);
     });
+    
     
     Route::get('profile', function() {
         return view('dashboard.profile');

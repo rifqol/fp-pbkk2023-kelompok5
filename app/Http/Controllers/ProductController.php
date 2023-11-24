@@ -45,6 +45,13 @@ class ProductController extends Controller
         return view('product.detail')->with(['product' => $product]);
     }
 
+    function userIndex(Request $request) 
+    {
+        $user = $request->user();
+        $products = Product::where('seller_id', $user->id)->paginate(20)->withQueryString();
+        return view('dashboard.products')->with(['products' => $products]);
+    }
+
     function store(ProductCreateRequest $request)
     {
         $data = $request->validated();

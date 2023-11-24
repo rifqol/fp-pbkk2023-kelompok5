@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -17,6 +18,13 @@ class UserController extends Controller
             return User::all();
         });
         return view('dashboard.users')->with('users', $users);
+    }
+
+    public function dashboard(Request $request)
+    {
+        $user = $request->user();
+        $products = Product::where('seller_id', $user->id)->limit(5)->get();
+        return view('dashboard.index')->with(['products' => $products]);
     }
 
     public function create()
