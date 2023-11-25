@@ -23,7 +23,7 @@ class UserController extends Controller
     public function dashboard(Request $request)
     {
         $user = $request->user();
-        $products = Product::where('seller_id', $user->id)->limit(5)->get();
+        $products = Product::where('is_deleted', false)->where('seller_id', $user->id)->limit(5)->get();
         return view('dashboard.index')->with(['products' => $products]);
     }
 

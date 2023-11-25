@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_public')->default(false);
+            $table->boolean('is_deleted')->default(false);
             $table->string('name');
             $table->string('type');
             $table->string('condition');

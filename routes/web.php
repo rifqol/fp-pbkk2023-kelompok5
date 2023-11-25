@@ -4,9 +4,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\RandomController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\UserController;
+use App\Models\ProductImage;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +35,14 @@ Route::group(['middleware' => 'auth'], function() {
     
     Route::group(['prefix' => 'dashboard'], function() {
         Route::get('/', [UserController::class, 'dashboard']);
-        Route::get('products', [ProductController::class, 'userIndex']);
+        Route::get('product', [ProductController::class, 'userIndex']);
+        Route::get('product/create', [ProductController::class, 'create']);
+        Route::post('product/create', [ProductController::class, 'store']);
+        Route::get('product/{id}/edit', [ProductController::class, 'edit'])->whereNumber('id');
+        Route::post('product/{id}/edit', [ProductController::class, 'update'])->whereNumber('id');
+        Route::post('product/{id}/remove', [ProductController::class, 'destroy'])->whereNumber('id');
+        Route::post('product/image/{id}/add', [ProductImageController::class, 'store'])->whereNumber('id');
+        Route::post('product/image/{id}/remove', [ProductImageController::class, 'destroy'])->whereNumber('id');
     });
     
     

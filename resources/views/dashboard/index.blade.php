@@ -6,7 +6,7 @@
     <section class="flex flex-col">
         <div class="flex divide-x-2 gap-2">
             <span class="text-2xl font-extrabold my-2"> Your Products </span>
-            <a href="{{url('dashboard/products')}}" class="hover:cursor-pointer text-green-400 self-center pl-2">View all</a>
+            <a href="{{url('dashboard/product')}}" class="hover:cursor-pointer text-green-400 self-center pl-2">View all</a>
         </div>
         <div class="bg-white shadow-md p-4 rounded-md">
             <div class="flex flex-col min-h-[10rem] gap-2">
@@ -52,7 +52,7 @@
                                     Rp. {{number_format($product->price, thousands_separator: ".")}}
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <a href="{{url('products/' . $product->id . '/edit')}}" class="font-medium text-blue-600  hover:underline">Edit</a>
+                                    <a href="{{url('dashboard/product/' . $product->id . '/edit')}}" class="font-medium text-blue-600  hover:underline">Edit</a>
                                 </td>
                             </tr>
                             @endforeach

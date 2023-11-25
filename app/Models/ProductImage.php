@@ -11,7 +11,8 @@ class ProductImage extends Model
     use HasFactory, HasRelationships;
 
     protected $fillable = [
-
+        'image_url',
+        'product_id',
     ];
 
     public function Product()
