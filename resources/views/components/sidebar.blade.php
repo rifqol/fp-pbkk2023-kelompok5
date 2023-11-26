@@ -30,7 +30,7 @@
             <x-heroicon-o-users class="w-5 h-auto"/> Users
         </a>
         <a href="{{ url('chats') }}" class="{{ (request()->is('chats')) || request()->is('chats/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
-            <x-heroicon-o-chat-bubble-oval-left class="w-5 h-auto"/> Chats
+            <x-heroicon-o-chat-bubble-oval-left-ellipsis class="w-5 h-auto"/> Chats
         </a>
         <form action="{{ url('logout') }}" class="flex flex-col gap-2 mt-auto self-center" method="POST">
             @csrf
