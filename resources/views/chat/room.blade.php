@@ -28,18 +28,17 @@
 }
 </style>
 
-<div class="chat max-h-[90vh] overflow-x-auto">
+
+<header class="outline-none bg-gray-100 ring-gray-200 ring-2 round-md text-black py-2 text-center flex items-center justify-between">
+    <div class="flex items-center">
+        <img src="{{ $chatPartner->photo_url }}" class="w-12 h-12 rounded-full object-cover shadow-md ml-2" alt="{{ $chatPartner->name }}">
+        <h1 class="text-xl ml-2">{{ $chatPartner->name }}</h1>
+    </div>
+</header>
+
 
 </div>
 
-<!-- <form id="send_chat" action="{{url('/chats/' . $receiver_id . '/send')}}" class="flex flex-col gap-2 fixed right-2 bottom-0 w-[75%] h-[20vh]" method="post" enctype="multipart/form-data" novalidate>
-    @csrf
-        <input type="message" name="message" class="rounded-md ring-gray-500 ring-2 p-2 bg-gray-100 drop-shadow-lg mb-4" value="{{old('message')}}" id="message">
-        @error('message')
-            <h5 class="text-red-400 font-thin text-sm mt-[-1rem]">{{ $message }}</h5>
-        @enderror    
-    <input type="submit" class="bg-black rounded-md text-white w-1/2 h-10 self-center mt-5" value="Send">
-</form> -->
 
 <form id="send_chat" action="{{ url('/chats/' . $receiver_id . '/send') }}" class="flex flex-col gap-2 fixed right-2 bottom-3 w-[75%] max-h-[40vh]" method="post" enctype="multipart/form-data" novalidate>
     @csrf
