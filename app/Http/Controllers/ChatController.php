@@ -57,7 +57,9 @@ class ChatController extends Controller
     public function chat(Request $request, $id)
     {
         $user = $request->user();
-        return view('chat.room')->with(['receiver_id' => $id]);
+        $chatPartner = User::find($id);
+
+        return view('chat.room')->with(['receiver_id' => $id, 'chatPartner' => $chatPartner,]);
     }
 
     public function receiveMessage(Request $request)

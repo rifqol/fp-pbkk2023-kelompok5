@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Chat extends Model
 {
-    use HasFactory;
+    use HasFactory, HasRelationships;
 
     protected $fillable = [
         'message',

@@ -10,8 +10,12 @@ class ProductReviewService
     public function __construct(
         private ProductReviewRepositoryInterface $product_review_repository
     ) {}
-    
 
+    public function indexProductReview(IndexProductReviewRequest $request)
+    {
+        return $this->product_review_repository->index($request->getProductId());
+    }
+    
     public function createProductReview(CreateProductReviewRequest $request)
     {
         $product_review = new ProductReview(null,

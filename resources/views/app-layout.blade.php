@@ -28,7 +28,7 @@
     </nav>
 
     <!-- main content -->
-    <div class="relative z-0 pl-[5rem] sm:pl-0 overflow-scroll h-screen w-full">
+    <div class="relative z-0 pl-[5rem] overflow-y-auto sm:pl-0 h-screen w-full">
         @yield('main')
     </div>
 </body>

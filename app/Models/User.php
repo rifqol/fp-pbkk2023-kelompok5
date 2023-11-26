@@ -26,6 +26,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
+        'region_code',
         'bank_actnumber',
         'photo_url',
     ];
@@ -49,4 +50,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region_code', 'code');
+    }
+
+    public function cart()
+    {
+        return $this->belongsToMany(Product::class, 'user_cart_items')
+            ->withPivot('quantity');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function incomingOrders()
+    {
+        return $this->hasMany(Order::class, 'seller_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'seller_id');
+    }
 }

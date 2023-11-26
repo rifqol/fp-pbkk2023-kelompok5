@@ -3,8 +3,13 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\RandomController;
+use App\Http\Controllers\RegionController;
 use App\Http\Controllers\UserController;
+use App\Models\ProductImage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,9 +33,18 @@ Route::group(['middleware' => 'auth'], function() {
         return redirect('/dashboard');
     });
     
-    Route::get('dashboard', function () {
-        return view('dashboard.home');
+    Route::group(['prefix' => 'dashboard'], function() {
+        Route::get('/', [UserController::class, 'dashboard']);
+        Route::get('product', [ProductController::class, 'userIndex']);
+        Route::get('product/create', [ProductController::class, 'create']);
+        Route::post('product/create', [ProductController::class, 'store']);
+        Route::get('product/{id}/edit', [ProductController::class, 'edit'])->whereNumber('id');
+        Route::post('product/{id}/edit', [ProductController::class, 'update'])->whereNumber('id');
+        Route::post('product/{id}/remove', [ProductController::class, 'destroy'])->whereNumber('id');
+        Route::post('product/image/{id}/add', [ProductImageController::class, 'store'])->whereNumber('id');
+        Route::post('product/image/{id}/remove', [ProductImageController::class, 'destroy'])->whereNumber('id');
     });
+    
     
     Route::get('profile', function() {
         return view('dashboard.profile');
@@ -38,12 +52,23 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('users', [UserController::class, 'index']);
 
-    Route::get('chats', [ChatController::class, 'index']);
-    Route::get('chats/{id}', [ChatController::class, 'chat'])->whereNumber('id');
-    Route::post('chats/{id}/send', [ChatController::class, 'store'])->whereNumber('id');
-    Route::get('chats/{id}/reload', [ChatController::class, 'reloadChat'])->whereNumber('id');
+    Route::group(['prefix' => 'chats'], function() {
+        Route::get('/', [ChatController::class, 'index']);
+        Route::get('{id}', [ChatController::class, 'chat'])->whereNumber('id');
+        Route::post('{id}/send', [ChatController::class, 'store'])->whereNumber('id');
+        Route::get('{id}/reload', [ChatController::class, 'reloadChat'])->whereNumber('id');
+    });
+
+    Route::group(['prefix' => 'products'], function() {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::get('{id}', [ProductController::class, 'show'])->whereNumber('id');
+    });
 
     Route::post('logout', [AuthController::class, 'logout']);
+});
+
+Route::group(['prefix' => 'regions'], function() {
+    Route::get('/', [RegionController::class, 'index']);
 });
 
 
