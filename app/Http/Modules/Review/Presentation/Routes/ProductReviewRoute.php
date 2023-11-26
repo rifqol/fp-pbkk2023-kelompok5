@@ -4,7 +4,8 @@ namespace App\Http\Modules\Review\Presentation\Routes;
 use App\Http\Modules\Review\Presentation\Controllers\ProductReviewController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('create', [ProductReviewController::class, 'createProductReview']);
-Route::get('create', [ProductReviewController::class, 'showCreateProductReview']);
-Route::post('update/{id}', [ProductReviewController::class, 'updateProductReview']);
-Route::post('delete/{id}', [ProductReviewController::class, 'deleteProductReview']);
+Route::post('reviews/create', [ProductReviewController::class, 'createProductReview']);
+Route::get('reviews/create', [ProductReviewController::class, 'showCreateProductReview']);
+Route::post('reviews/update/{id}', [ProductReviewController::class, 'updateProductReview']);
+Route::post('reviews/delete/{id}', [ProductReviewController::class, 'deleteProductReview']);
+Route::get('products/{id}/reviews', [ProductReviewController::class, 'indexProductReview'])->whereNumber('id');

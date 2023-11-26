@@ -3,6 +3,7 @@ namespace App\Http\Modules\Review\Presentation\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Modules\Review\Application\Service\ProductReview\CreateProductReviewRequest;
+use App\Http\Modules\Review\Application\Service\ProductReview\IndexProductReviewRequest;
 use App\Http\Modules\Review\Application\Service\ProductReview\ProductReviewService;
 use App\Http\Modules\Review\Application\Service\ProductReview\UpdateProductReviewRequest;
 use Illuminate\Http\Request;
@@ -12,16 +13,25 @@ class ProductReviewController extends Controller
     public function __construct(
         private ProductReviewService $product_review_service
     ) {}
+
+    public function indexProductReview(Request $request, $id)
+    {
+        $index_request = new IndexProductReviewRequest($id ?? 0);
+
+        return $this->executeService(
+            function() use($index_request) {return $this->product_review_service->indexProductReview($index_request);}
+        );
+    }
     
     public function createProductReview(Request $request)
     {
         $user = $request->user();
 
         $request->validate([
-            'rating' => 'required',
-            'review' => 'nullable',
-            'user_id' => 'required',
-            'product_id' => 'required',
+            'rating' => 'required|numeric|min:1|max:5',
+            'review' => 'nullable|max:1023',
+            'user_id' => 'required|numeric|exists|',
+            'product_id' => 'required|numeric|exists',
         ]);
 
         $create_request = new CreateProductReviewRequest(

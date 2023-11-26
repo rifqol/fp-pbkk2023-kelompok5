@@ -7,12 +7,23 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ProductReviewRepository implements ProductReviewRepositoryInterface
-{
+{   
+    public function index(int $product_id = 0)
+    {
+        $reviews = DB::table('product_reviews')
+            ->when($product_id, function ($query) use($product_id) {
+                $query->where('product_id', $product_id);
+            })
+            ->get();
+        
+        return $reviews->toArray();
+    }
+
     public function persist(ProductReview $product_review)
     {
         $data = $this->createPayload($product_review);
 
-        if($product_review->getId() && DB::table('product_reviews')->where('id', $product_review->getId()))
+        if($product_review->getId() && DB::table('product_reviews')->where('id', $product_review->getId())->first())
         {
             $data['updated_at'] = Carbon::now();
         } 
