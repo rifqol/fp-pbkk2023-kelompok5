@@ -23,8 +23,28 @@ class UserController extends Controller
     public function dashboard(Request $request)
     {
         $user = $request->user();
-        $products = Product::where('is_deleted', false)->where('seller_id', $user->id)->limit(5)->get();
-        return view('dashboard.index')->with(['products' => $products]);
+        $products = Product::where('is_deleted', false)
+            ->where('seller_id', $user->id)
+            ->limit(5)
+            ->get();
+        $incoming_orders = $user->incomingOrders()
+            ->withCount('products')
+            ->limit(5)
+            ->get();
+        // dd(array_map(function($item) {
+        //     return ['quantity' => $item['pivot']['quantity']];
+        // },$user->cart->toArray()));
+
+        // dd($user->orders()->withCount(['products'])->get()->toArray());
+
+        // dd($user->incomingOrders()
+        // ->withCount('products')
+        // ->get());
+
+        return view('dashboard.index')->with([
+            'products' => $products,
+            'incoming_orders' => $incoming_orders,
+        ]);
     }
 
     public function create()
