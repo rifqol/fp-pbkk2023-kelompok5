@@ -11,7 +11,7 @@ class OrderMarkShippingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class OrderMarkShippingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'tracking_number' => 'required|max:255',
         ];
     }
 }

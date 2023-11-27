@@ -14,8 +14,17 @@ class Order extends Model
         'total',
         'status',
         'payment_url',
+        'shipment_address',
+        'tracking_number',
+        'region_code',
         'user_id',
+        'seller_id',
     ];
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region_code', 'code');
+    }
 
     public function products()
     {
