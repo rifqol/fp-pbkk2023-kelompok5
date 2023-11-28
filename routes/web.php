@@ -82,6 +82,9 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     Route::group(['prefix' => 'orders'], function() {
+        Route::get('/', [OrderController::class, 'orders']);
+        Route::get('{id}', [OrderController::class, 'showOrder'])->whereNumber('id');
+        Route::post('{id}/mark-complete', [OrderController::class, 'markComplete'])->whereNumber('id');
         Route::post('create', [OrderController::class, 'store']);
     });
 

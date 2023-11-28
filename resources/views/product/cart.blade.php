@@ -82,7 +82,7 @@
                         @error('name')
                             <h5 class="text-red-400 font-thin text-sm mt-[-0.5rem]">{{ $message }}</h5>
                         @enderror
-                        <button class="bg-green-500 text-white rounded-md p-1 text-sm" type="submit">Make Payment</button>
+                        <button class="bg-green-500 text-white rounded-md p-1 text-sm" type="submit">Order</button>
                     </form>
                 </div>
             </div>

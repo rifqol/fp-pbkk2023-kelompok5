@@ -5,10 +5,7 @@
     <span class="text-2xl font-extrabold">Halo {{ Auth::user()->name }}! </span>
     <section class="flex flex-col gap-2">
         <div class="flex gap-2">
-            <span class="text-2xl font-extrabold my-2"> Your Products </span>
-            <a href="{{url('dashboard/product/create')}}" class="flex hover:cursor-pointer bg-green-400 text-white p-2 rounded-md self-center ml-auto">
-                <x-heroicon-o-plus class="h-6 mr-2"/> New Product
-            </a>
+            <span class="text-2xl font-extrabold my-2"> Your Incoming Orders </span>
         </div>
         @if ($message = session('success'))
         <span class="flex flex-row bg-green-200 rounded-md ring-1 ring-green-900 text-green-900 p-4" onclick="">
@@ -39,6 +36,9 @@
                                     Status
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    Tracking Number
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Total
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -60,6 +60,10 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     {{$incoming_order->status}}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{$incoming_order->tracking_number ?? 'Not Added'}}
+                                </td>
                                 <td class="px-6 py-4">
                                     Rp. {{number_format($incoming_order->total, thousands_separator: ".")}}
                                 </td>
