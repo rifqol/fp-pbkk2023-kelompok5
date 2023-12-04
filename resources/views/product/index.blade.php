@@ -8,7 +8,7 @@
     <form>
         <div class="flex gap-2">
             <input type="text" class="p-2 border rounded-md w-full" name="q">
-            <button type="submit" class="p-2 border rounded-md bg-green-500 text-white w-1/12">Search</button>
+            <button type="submit" class="flex gap-2 bg-green-500 rounded-md p-2 flex items-center justify-center"><x-heroicon-o-magnifying-glass class="h-5 text-white"/></button>
             <a class="flex gap-2 bg-green-500 rounded-md p-2" href="{{ url('cart') }}">
                 <x-heroicon-o-shopping-cart class="h-5 text-white self-center"/>
             </a>
@@ -22,15 +22,16 @@
             @else
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-cols-4 gap-5">
             @foreach ($users as $user)
-                <div class="flex border text-center rounded-md shadow-md bg-white p-4 w-full">
-                    <img src="{{$user->photo_url}}" class="h-20 w-20 self-center rounded-full object-cover">
-                    <div class="flex flex-col self-center mx-auto">
-                        <span>{{$user->name}}</span>
-                        <span class="flex self-center gap-2">
-                            <x-heroicon-s-map-pin class="h-5"/> {{ \Illuminate\Support\Str::limit($user->region->name, 50) }}
-                        </span>
-                    </div>
-                </div>
+                <div class="flex items-center border text-center rounded-md shadow-md bg-white p-4 w-full">
+                    <img src="{{ $user->photo_url }}" class="h-20 w-20 rounded-full object-cover">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-lg">{{ $user->name }}</span>
+                                <div class="flex items-center text-gray-600">
+                                    <x-heroicon-s-map-pin class="h-5"/>
+                                    <span>{{ \Illuminate\Support\Str::limit($user->region->name, 50) }}</span>
+                                </div>
+                        </div>
+                </div> 
             @endforeach
             </div>
             @endif
