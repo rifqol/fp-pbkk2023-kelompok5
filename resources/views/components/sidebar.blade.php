@@ -26,8 +26,14 @@
         <a href="{{ url('products') }}" class="{{ (request()->is('products')) || request()->is('products/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
             <x-heroicon-o-shopping-bag class="w-5 h-auto"/> Products
         </a>
+        <a href="{{ url('cart') }}" class="{{ (request()->is('cart')) || request()->is('cart/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
+            <x-heroicon-o-shopping-cart class="w-5 h-auto"/> Cart @if ($cart_count = Auth::user()->cart()->count())<span class="text-white text-sm self-center bg-red-500 rounded-full px-3">{{ $cart_count }}</span>@endif
+        </a>
+        <a href="{{ url('orders') }}" class="{{ (request()->is('orders')) || request()->is('orders/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
+            <x-heroicon-o-truck class="w-5 h-auto"/> Order
+        </a>
         <a href="{{ url('users') }}" class="{{ (request()->is('users')) ? 'bg-green-500 text-white' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
-            <x-heroicon-o-users class="w-5 h-auto"/> Users
+            <x-heroicon-o-users class="w-5 h-auto"/> Users 
         </a>
         <a href="{{ url('chats') }}" class="{{ (request()->is('chats')) || request()->is('chats/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
             <x-heroicon-o-chat-bubble-oval-left-ellipsis class="w-5 h-auto"/> Chats

@@ -11,6 +11,7 @@ class OrderCreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        // dd($this);
         return true;
     }
 
@@ -22,7 +23,7 @@ class OrderCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'shippiment_address' => 'required|max:1023',
+            'shipment_address' => 'required|max:255',
             'region_code' => 'required|max:13|exists:regions,code',
         ];
     }

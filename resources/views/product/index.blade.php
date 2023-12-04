@@ -9,6 +9,9 @@
         <div class="flex gap-2">
             <input type="text" class="p-2 border rounded-md w-full" name="q">
             <button type="submit" class="p-2 border rounded-md bg-green-500 text-white w-1/12">Search</button>
+            <a class="flex gap-2 bg-green-500 rounded-md p-2" href="{{ url('cart') }}">
+                <x-heroicon-o-shopping-cart class="h-5 text-white self-center"/>
+            </a>
         </div>
     </form>
     <section id="users_list" class="flex flex-col">

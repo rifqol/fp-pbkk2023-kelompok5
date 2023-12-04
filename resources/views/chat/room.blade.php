@@ -37,6 +37,8 @@
 </header>
 
 
+<div class="chat max-h-[90vh] overflow-x-auto">
+    
 </div>
 
 

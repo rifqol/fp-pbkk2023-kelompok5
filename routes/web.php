@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\RandomController;
@@ -35,14 +37,22 @@ Route::group(['middleware' => 'auth'], function() {
     
     Route::group(['prefix' => 'dashboard'], function() {
         Route::get('/', [UserController::class, 'dashboard']);
-        Route::get('product', [ProductController::class, 'userIndex']);
-        Route::get('product/create', [ProductController::class, 'create']);
-        Route::post('product/create', [ProductController::class, 'store']);
-        Route::get('product/{id}/edit', [ProductController::class, 'edit'])->whereNumber('id');
-        Route::post('product/{id}/edit', [ProductController::class, 'update'])->whereNumber('id');
-        Route::post('product/{id}/remove', [ProductController::class, 'destroy'])->whereNumber('id');
-        Route::post('product/image/{id}/add', [ProductImageController::class, 'store'])->whereNumber('id');
-        Route::post('product/image/{id}/remove', [ProductImageController::class, 'destroy'])->whereNumber('id');
+        Route::group(['prefix' => 'product'], function() {
+            Route::get('/', [ProductController::class, 'userIndex']);
+            Route::get('create', [ProductController::class, 'create']);
+            Route::post('create', [ProductController::class, 'store']);
+            Route::get('{id}/edit', [ProductController::class, 'edit'])->whereNumber('id');
+            Route::post('{id}/edit', [ProductController::class, 'update'])->whereNumber('id');
+            Route::post('{id}/remove', [ProductController::class, 'destroy'])->whereNumber('id');
+            Route::post('image/{id}/add', [ProductImageController::class, 'store'])->whereNumber('id');
+            Route::post('image/{id}/remove', [ProductImageController::class, 'destroy'])->whereNumber('id');
+        });
+        
+        Route::group(['prefix' => 'order'], function() {
+            Route::get('/', [OrderController::class, 'incomingOrders']);
+            Route::get('{id}/edit', [OrderController::class, 'showIncomingOrder']);
+            Route::post('{id}/update-tracking-number', [OrderController::class, 'markShipping']);
+        });
     });
     
     
@@ -62,6 +72,20 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', [ProductController::class, 'index']);
         Route::get('{id}', [ProductController::class, 'show'])->whereNumber('id');
+        Route::post('{id}/addtocart', [CartController::class, 'addToCart'])->whereNumber('id');
+        Route::post('{id}/editcart', [CartController::class, 'editCartItem'])->whereNumber('id');
+        Route::post('{id}/removecart', [CartController::class, 'removeFromCart'])->whereNumber('id');
+    });
+
+    Route::group(['prefix' => 'cart'], function() {
+        Route::get('/', [CartController::class, 'index']);
+    });
+
+    Route::group(['prefix' => 'orders'], function() {
+        Route::get('/', [OrderController::class, 'orders']);
+        Route::get('{id}', [OrderController::class, 'showOrder'])->whereNumber('id');
+        Route::post('{id}/mark-complete', [OrderController::class, 'markComplete'])->whereNumber('id');
+        Route::post('create', [OrderController::class, 'store']);
     });
 
     Route::post('logout', [AuthController::class, 'logout']);

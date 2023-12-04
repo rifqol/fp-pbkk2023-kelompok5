@@ -45,7 +45,11 @@ class ProductController extends Controller
     public function show(Request $request, $id)
     {
         $user = $request->user();
-        $product = Product::with(['seller', 'images'])->where('id', $id)->first();
+        $product = Product::with(['seller', 'images'])
+            ->withAvg('reviews as rating', 'rating')
+            ->withCount('reviews')
+            ->where('id', $id)
+            ->first();
         if(!$product || ($product->is_deleted && !$user->is_admin) ) return redirect('products'); 
         return view('product.detail')->with(['product' => $product]);
     }

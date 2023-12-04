@@ -16,7 +16,7 @@ class OrderController extends Controller
 {
     public function __construct()
     {
-        Configuration::setXenditKey(config('XENDIT_SECRET_KEY'));
+        Configuration::setXenditKey(config('xendit.api_key'));
     }
 
     public function incomingOrders(Request $request)
@@ -28,7 +28,7 @@ class OrderController extends Controller
             ->paginate(20)
             ->withQueryString();
         
-        return view('order.incoming-index')->with(['incoming_orders' => $incoming_orders]);
+        return view('dashboard.orders')->with(['incoming_orders' => $incoming_orders]);
     }
 
     public function showIncomingOrder(Request $request, $id)
@@ -36,7 +36,7 @@ class OrderController extends Controller
         $user = $request->user();
 
         $incoming_order = $user->incomingOrders()
-            ->with(['user', 'products'])
+            ->with(['user', 'products', 'region'])
             ->where('id', $id)
             ->first();
         
@@ -78,18 +78,25 @@ class OrderController extends Controller
             'status' => 'Pending',
             'shipment_address' => $data['shipment_address'],
             'region_code' => $data['region_code'],
+            'user_id' => $user->id,
+            'seller_id' => $user->cart()->first()->seller_id,
         ]);
 
         $cart_items = $user->cart->toArray();
-        $cart_item_quantities =  array_map(function($item) {
-            return ['quantity' => $item['pivot']['quantity']];
+        $cart_items =  array_map(function($item) {
+            return [$item['id'] => ['quantity' => $item['pivot']['quantity']]];
         }, $cart_items);
 
-        $order->products()->attach($cart_items['id'], $cart_item_quantities);
+
+        foreach ($cart_items as $value)
+        {
+            $order->products()->attach($value);
+        }
+        
         $order->total = $order->products()->sum(DB::raw('price * quantity'));
         $order->save();
 
-        $user->cart()->delete();
+        $user->cart()->detach();
 
         // Xendit
         $apiInstance = new InvoiceApi();
@@ -99,6 +106,8 @@ class OrderController extends Controller
             'amount' => $order->total,
             'payer_email' => $user->email,
             'currency' => 'IDR',
+            'success_redirect_url' => url('orders/'. $order->id),
+            'failure_redirect_url' => url('orders/'. $order->id),
         ]); 
 
         $result = $apiInstance->createInvoice($create_invoice_request);
@@ -141,10 +150,10 @@ class OrderController extends Controller
     {
         $user = $request->user();
         $data = $request->validated();
-
         $order = Order::where('id', $id)->first();
+ 
         if(!$order || $order->seller_id != $user->id && !$user->is_admin) return redirect('orders');
-        if($order->status != 'Paid') return redirect('orders');
+        if($order->status != 'Paid' && $order->status != 'Shipping') return redirect('orders');
 
         $order->tracking_number = $data['tracking_number'];
         $order->status = 'Shipping';

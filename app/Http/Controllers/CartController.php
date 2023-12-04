@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -11,18 +13,22 @@ class CartController extends Controller
     {
         $user = $request->user();
         $products = $user->cart;
-        return view('product.cart')->with(['cart_items' => $products]);
+        $total = $user->cart()->sum(DB::raw('price * quantity'));
+        $provinces = Region::whereRaw('CHAR_LENGTH(code) = 2')->get();
+        
+        return view('product.cart')->with(['cart_items' => $products, 'total' => $total, 'provinces' => $provinces]);
     }
 
     public function addToCart(Request $request, $id)
     {
         $user = $request->user();
+
         $request->validate([
             'quantity' => 'required|numeric',
         ]);
 
         $user_cart_items = $user->cart;
-        if(!$user_cart_items->where('id', $id)->count()) return back()->with(['cart_error' => 'Product is already in cart!']);
+        if($user_cart_items->where('id', $id)->count()) return back()->with(['cart_error' => 'Product is already in cart!']);
 
         $product = Product::where('id', $id)->first(['seller_id']);
         if(!$product) return redirect('products');
@@ -42,7 +48,7 @@ class CartController extends Controller
             'quantity' => 'required|numeric',
         ]);
 
-        if(!$user->cart()->where('product_id', $id)->count()) return redirect('products');
+        if(!$user->cart()->where('products.id', $id)->count()) return redirect('products');
         $user->cart()->updateExistingPivot($id, [
             'quantity' => $request->quantity,
         ]);
@@ -52,7 +58,7 @@ class CartController extends Controller
     public function removeFromCart(Request $request, $id)
     {
         $user = $request->user();
-        if(!$user->cart()->where('product_id', $id)->count()) return redirect('products');
+        if(!$user->cart()->where('products.id', $id)->count()) return redirect('products');
         $user->cart()->detach($id);
         return back()->with(['cart_success' => 'Succesfully removed product to cart!']);
     }
