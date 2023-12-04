@@ -57,7 +57,13 @@ class ProductController extends Controller
     public function userIndex(Request $request) 
     {
         $user = $request->user();
-        $products = Product::where('is_deleted', 0)->where('seller_id', $user->id)->paginate(20)->withQueryString();
+        $products = Product::where('is_deleted', 0)
+        ->where('seller_id', $user->id)
+        ->when(request('search'), function($query) {
+            $query->where('name', 'like', '%' . request('search') . '%');
+    })
+        ->paginate(20)->withQueryString();
+
         return view('dashboard.products')->with(['products' => $products]);
     }
 

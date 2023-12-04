@@ -1,17 +1,27 @@
 {
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
-    },
-    "devDependencies": {
-        "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.8.0",
-        "vite": "^4.0.0"
-    },
-    "dependencies": {
-        "laravel-echo": "^1.15.3",
-        "pusher-js": "^8.3.0"
-    }
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "axios": "^1.1.2",
+    "laravel-vite-plugin": "^0.8.0",
+    "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "laravel-echo": "^1.15.3",
+    "pusher-js": "^8.3.0"
+  },
+  "name": "fp-pbkk2023-kelompok5",
+  "description": "|Nama|NRP| |----|---| |Ketut Arda Putra Mahotama Sadha|5025211235| |Muhammad Rifqi Fadhilah|5025211228|",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
