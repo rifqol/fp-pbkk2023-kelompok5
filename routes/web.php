@@ -47,7 +47,15 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('{id}/mark-complete', [OrderController::class, 'adminMarkComplete'])->whereNumber('id');
             Route::post('{id}/mark-cancelled', [OrderController::class, 'adminMarkCancelled'])->whereNumber('id');
         });
-        
+
+        Route::group(['prefix' => 'product'], function() {
+            Route::get('/', [AdminController::class, 'products']);
+            Route::get('{id}/edit', [ProductController::class, 'edit'])->whereNumber('id');
+            Route::post('{id}/edit', [ProductController::class, 'update'])->whereNumber('id');
+            Route::post('{id}/remove', [ProductController::class, 'destroy'])->whereNumber('id');
+            Route::post('image/{id}/add', [ProductImageController::class, 'store'])->whereNumber('id');
+            Route::post('image/{id}/remove', [ProductImageController::class, 'destroy'])->whereNumber('id');
+        });
     });
     
     Route::group(['prefix' => 'dashboard'], function() {

@@ -72,7 +72,17 @@
                             <h5 class="text-red-400 font-thin text-sm mt-[-0.5rem]">{{ $message }}</h5>
                         @enderror
                     </div>
-                    
+                    <div class="flex flex-col">
+                        <label class="mb-4" for="is_public">Status</label>
+                        <select id="is_public" class="rounded-md ring-gray-500 ring-2 p-2 bg-gray-100 drop-shadow-lg mb-4" name="is_public">
+                            <option value="">Select Status</option>
+                            <option value="0" {{!$product->is_public ? 'selected' : ''}}>Draft</option>
+                            <option value="1" {{$product->is_public ? 'selected' : ''}}>Public</option>
+                        </select>
+                        @error('condition')
+                            <h5 class="text-red-400 font-thin text-sm mt-[-0.5rem]">{{ $message }}</h5>
+                        @enderror
+                    </div>
                 </div>
                 <div class="flex flex-col">
                     <label class="mb-4" for="description">Product Description</label>

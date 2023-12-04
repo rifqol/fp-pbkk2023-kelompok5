@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderMarkShippingRequest;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Xendit\Configuration;
@@ -102,7 +103,14 @@ class OrderController extends Controller
         foreach ($cart_items as $value)
         {
             $order->products()->attach($value);
+
+            // Decrement stock for each product
+            $product_id = array_keys($value)[0];
+            $product = Product::where('id', $product_id)->first();
+            $product->stock -= $value[$product_id]['quantity'];
+            $product->save();
         }
+
         
         $order->total = $order->products()->sum(DB::raw('price * quantity'));
         $order->save();
@@ -154,8 +162,15 @@ class OrderController extends Controller
                 break;
             case 'EXPIRED':
                 $order->status = 'Cancelled';
+                // Increment product stock
+                $order->products()->each(function($product) {
+                    $product->stock += $product->pivot->quantity;
+                    $product->save();
+                });
                 break;
         }
+
+        
 
         $order->save();
 
@@ -244,6 +259,12 @@ class OrderController extends Controller
     {
         $order = Order::where('id', $id)->first();
         if(!$order) return redirect('orders');
+
+        // Increment product stock
+        $order->products()->each(function($product) {
+            $product->stock += $product->pivot->quantity;
+            $product->save();
+        });
 
         $order->status = 'Cancelled';
         $order->save();

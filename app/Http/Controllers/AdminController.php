@@ -23,12 +23,24 @@ class AdminController extends Controller
         ]);
     }
 
-    public function orders()
+    public function orders(Request $request)
     {
         $orders = Order::with(['seller', 'user', 'user.region'])
             ->latest()
             ->paginate(20)
             ->withQueryString();
         return view('admin.orders')->with(['orders' => $orders]);
+    }
+
+    public function products(Request $request)
+    {
+        $products = Product::with('orders')
+            ->withSum(['orders as sold' => function($query) {
+                $query->whereIn('status', ['Complete']);
+            }], 'product_orders.quantity')
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
+        return view('admin.products')->with(['products' => $products]);
     }
 }
