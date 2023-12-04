@@ -56,7 +56,9 @@ class OrderController extends Controller
         $user = $request->user();
 
         $order = $user->orders()
-            ->with(['seller', 'products'])
+            ->with(['seller', 'products', 'products.reviews' => function($query) use($user) {
+                $query->where('user_id', $user->id);
+            }])
             ->where('id', $id)
             ->first();
 

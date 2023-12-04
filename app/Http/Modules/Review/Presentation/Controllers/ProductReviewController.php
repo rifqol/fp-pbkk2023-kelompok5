@@ -30,8 +30,8 @@ class ProductReviewController extends Controller
         $request->validate([
             'rating' => 'required|numeric|min:1|max:5',
             'review' => 'nullable|max:1023',
-            'user_id' => 'required|numeric|exists|',
-            'product_id' => 'required|numeric|exists',
+            'user_id' => 'required|numeric|exists:users,id|',
+            'product_id' => 'required|numeric|exists:products,id',
         ]);
 
         $create_request = new CreateProductReviewRequest(
