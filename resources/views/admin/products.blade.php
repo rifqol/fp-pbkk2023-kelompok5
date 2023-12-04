@@ -5,10 +5,7 @@
     <span class="text-2xl font-extrabold">Halo {{ Auth::user()->name }}! </span>
     <section class="flex flex-col gap-2">
         <div class="flex gap-2">
-            <span class="text-2xl font-extrabold my-2"> Your Products </span>
-            <a href="{{url('dashboard/product/create')}}" class="flex hover:cursor-pointer bg-green-400 text-white p-2 rounded-md self-center ml-auto">
-                <x-heroicon-o-plus class="h-6 mr-2"/> New Product
-            </a>
+            <span class="text-2xl font-extrabold my-2"> All Products </span>
         </div>
         @if ($message = session('success'))
         <span class="flex flex-row bg-green-200 rounded-md ring-1 ring-green-900 text-green-900 p-4" onclick="">
@@ -31,10 +28,19 @@
                                     Product name
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    Seller
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Stock
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Status
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Deleted
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Sold
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Price
@@ -50,16 +56,26 @@
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                     {{$product->name}}
                                 </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                    {{$product->seller->name}}
+                                </th>
                                 <td class="px-6 py-4">
                                     {{$product->stock}}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{$product->is_public ? 'Public' : 'Draft'}}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{$product->is_deleted ? 'Yes' : 'No'}}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{$product->sold}}
+                                </td>
                                 <td class="px-6 py-4">
                                     Rp. {{number_format($product->price, thousands_separator: ".")}}
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <a href="{{url('dashboard/product/' . $product->id . '/edit')}}" class="font-medium text-blue-600  hover:underline">Edit</a>
+                                    <a href="{{url('admin/product/' . $product->id . '/edit')}}" class="font-medium text-blue-600  hover:underline">Edit</a>
                                 </td>
                             </tr>
                             @endforeach

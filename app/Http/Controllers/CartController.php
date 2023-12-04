@@ -12,7 +12,7 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $products = $user->cart;
+        $products = $user->cart()->with('seller')->get();
         $total = $user->cart()->sum(DB::raw('price * quantity'));
         $provinces = Region::whereRaw('CHAR_LENGTH(code) = 2')->get();
         

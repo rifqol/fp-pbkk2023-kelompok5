@@ -3,8 +3,13 @@
 @section('main')
 
 <div class="flex flex-col p-4 min-h-full bg-green-50">
-    <section class="flex flex-1 flex-col h-full">
+    <section class="flex flex-1 flex-col h-full gap-2">
         <span class="font-extrabold text-xl my-2">Order Detail</span>
+        @if ($message = session('order_success'))
+        <span class="flex flex-row bg-green-200 rounded-md ring-1 ring-green-900 text-green-900 p-4" onclick="">
+            {{ $message }} <button class="ml-auto font-extrabold" onclick="this.parentNode.remove()">X</button>
+        </span>
+        @endif
         <div class="flex flex-1 h-full bg-white shadow-md p-4 rounded-md gap-2">
             <ul class="flex flex-col w-full h-full">
                 @foreach ($order->products as $item)
@@ -26,7 +31,7 @@
                 <div class="flex flex-col gap-2 bg-green-50 p-2 rounded-md shadow-md">
                     <div class="flex flex-col gap-2 py-2 bg-white p-2 rounded-md shadow-md">
                         <h1>Seller</h1>
-                        <div class="flex flex gap-2 py-2">
+                        <div class="flex gap-2 py-2">
                             <img class="rounded-full w-10 h-10 object-cover shadow-md" src="{{$order->user->photo_url}}" alt="">
                             <a class="self-center text-md">{{$order->seller->name}}</a>
                         </div>
@@ -55,7 +60,7 @@
                                     @case('Complete')
                                         bg-green-500
                                         @break
-                                    @case('Canceled')
+                                    @case('Cancelled')
                                         bg-red-500
                                         @break    
                                 @endswitch

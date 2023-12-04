@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderMarkShippingRequest;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Xendit\Configuration;
@@ -25,6 +26,7 @@ class OrderController extends Controller
         $incoming_orders = $user->incomingOrders()
             ->with(['user'])
             ->withCount(['products'])
+            ->latest()
             ->paginate(20)
             ->withQueryString();
         
@@ -55,6 +57,15 @@ class OrderController extends Controller
         return view('order.detail')->with(['order' => $order]);
     }
 
+    public function adminShowOrder($id)
+    {
+        $order = Order::with(['user', 'user.region', 'products', 'region'])
+            ->where('id', $id)
+            ->first();
+
+        return view('order.admin-detail')->with(['order' => $order]);
+    }
+
     public function orders(Request $request)
     {
         $user = $request->user();
@@ -62,6 +73,7 @@ class OrderController extends Controller
         $orders = $user->orders()
             ->with(['seller'])
             ->withCount(['products'])
+            ->latest()
             ->paginate(20)
             ->withQueryString();
 
@@ -91,7 +103,14 @@ class OrderController extends Controller
         foreach ($cart_items as $value)
         {
             $order->products()->attach($value);
+
+            // Decrement stock for each product
+            $product_id = array_keys($value)[0];
+            $product = Product::where('id', $product_id)->first();
+            $product->stock -= $value[$product_id]['quantity'];
+            $product->save();
         }
+
         
         $order->total = $order->products()->sum(DB::raw('price * quantity'));
         $order->save();
@@ -116,7 +135,7 @@ class OrderController extends Controller
         $order->payment_url = $result['invoice_url'];
         $order->save();
 
-        return response()->json(['payment_url' => $result['invoice_url']]);
+        return redirect('orders/' . $order->id);
     }
 
     public function xenditNotification(Request $request)
@@ -124,6 +143,11 @@ class OrderController extends Controller
         $apiInstance = new InvoiceApi();
         $invoice = $apiInstance->getInvoices(null, $request->external_id)[0];
         $order = Order::where('external_id', $request->external_id)->first();
+
+        if($order->status == 'Cancelled')
+        {
+            return response()->json('Success');
+        }
 
         switch($invoice['status'])
         {
@@ -138,8 +162,15 @@ class OrderController extends Controller
                 break;
             case 'EXPIRED':
                 $order->status = 'Cancelled';
+                // Increment product stock
+                $order->products()->each(function($product) {
+                    $product->stock += $product->pivot->quantity;
+                    $product->save();
+                });
                 break;
         }
+
+        
 
         $order->save();
 
@@ -174,5 +205,70 @@ class OrderController extends Controller
         $order->save();
 
         return back()->with(['order_success' => 'Order marked as complete!']);
+    }
+
+    public function adminMarkShipping(OrderMarkShippingRequest $request, $id)
+    {
+        $data = $request->validated();
+        $order = Order::where('id', $id)->first();
+ 
+        if(!$order) return redirect('orders');
+
+        $order->tracking_number = $data['tracking_number'];
+        $order->status = 'Shipping';
+        $order->save();
+
+        return back()->with(['order_success' => 'Order marked as shipping!']);
+    }
+
+    public function adminMarkPending(Request $request, $id)
+    {
+        $order = Order::where('id', $id)->first();
+        if(!$order) return redirect('orders');
+
+        $order->status = 'Pending';
+        $order->save();
+
+        return back()->with(['order_success' => 'Order marked as paid!']);
+    }
+
+    public function adminMarkComplete(Request $request, $id)
+    {
+        $order = Order::where('id', $id)->first();
+        if(!$order) return redirect('orders');
+
+        $order->status = 'Complete';
+        $order->save();
+
+        return back()->with(['order_success' => 'Order marked as complete!']);
+    }
+
+    public function adminMarkPaid(Request $request, $id)
+    {
+        $order = Order::where('id', $id)->first();
+        if(!$order) return redirect('orders');
+
+        $order->status = 'Paid';
+        $order->save();
+
+        return back()->with(['order_success' => 'Order marked as paid!']);
+    }
+
+
+    public function adminMarkCancelled(Request $request, $id)
+    {
+        $order = Order::where('id', $id)->first();
+        if(!$order) return redirect('orders');
+
+        // Increment product stock
+        $order->products()->each(function($product) {
+            $product->stock += $product->pivot->quantity;
+            $product->save();
+        });
+
+        $order->status = 'Cancelled';
+        $order->save();
+
+        return back()->with(['order_success' => 'Order marked as cancelled!']);
     }
 }

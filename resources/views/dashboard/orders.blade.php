@@ -76,8 +76,8 @@
                     </table>
                 </div>
                 @endif
+                {{$incoming_orders->links()}}
             </div>
-            {{$incoming_orders->links()}}
         </div>
     </section>
 </div>

@@ -28,6 +28,7 @@ class ProductUpdateRequest extends FormRequest
             'description' => 'required|max:255',
             'price' => 'required',
             'stock' => 'required',
+            'is_public' => 'required',
         ];
     }
 }
