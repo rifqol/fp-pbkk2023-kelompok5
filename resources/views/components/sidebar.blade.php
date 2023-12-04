@@ -20,6 +20,11 @@
         </div>
     </span>
     <nav class="flex flex-col gap-3 h-full shadow-[inset_0px_45px_10px_-50px] w-[calc(100%+2rem)] pt-5 pl-4 pr-2 self-center">
+        @if (Auth::user()->is_admin)     
+        <a href="{{ url('admin') }}" class="{{ str_contains(request()->url(), '/admin') ? 'bg-green-500 text-white' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
+            <x-heroicon-o-cog-6-tooth class="w-5 h-auto"/> Admin
+        </a>
+        @endif
         <a href="{{ url('dashboard') }}" class="{{ str_contains(request()->url(), '/dashboard') ? 'bg-green-500 text-white' : 'bg-white'}} flex flex-row gap-2 rounded-xl p-3 shadow-md hover:ring-2 hover:ring-green-900">
             <x-heroicon-o-presentation-chart-line class="w-5 h-auto"/> Dashboard
         </a>

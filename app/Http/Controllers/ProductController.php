@@ -125,6 +125,7 @@ class ProductController extends Controller
         $product->is_deleted = true;
         $product->save();
 
+        if($user->is_admin)  return redirect('admin/product')->with(['success' => 'Succesfully removed product!']);
         return redirect('dashboard/product')->with(['success' => 'Succesfully removed product!']);
     }
 }
