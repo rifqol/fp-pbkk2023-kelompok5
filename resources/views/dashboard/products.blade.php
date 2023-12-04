@@ -4,12 +4,19 @@
 <div class="flex flex-col gap-3 p-4 min-h-full w-full bg-green-50">
     <span class="text-2xl font-extrabold">Halo {{ Auth::user()->name }}! </span>
     <section class="flex flex-col gap-2">
-        <div class="flex gap-2">
-            <span class="text-2xl font-extrabold my-2"> Your Products </span>
-            <a href="{{url('dashboard/product/create')}}" class="flex hover:cursor-pointer bg-green-400 text-white p-2 rounded-md self-center ml-auto">
-                <x-heroicon-o-plus class="h-6 mr-2"/> New Product
-            </a>
-        </div>
+    <div class="flex gap-2">
+    <span class="text-2xl font-extrabold my-2">Your Products</span>
+    <form class="flex items-center gap-2 flex-grow"> 
+        <input type="text" class="p-2 border rounded-md w-full" name="search">
+        <button type="submit" class="flex gap-2 bg-green-500 rounded-md p-2 items-center justify-center">
+            <x-heroicon-o-magnifying-glass class="h-5 text-white"/>
+        </button>
+    </form>
+    <a href="{{url('dashboard/product/create')}}" class="flex hover:cursor-pointer bg-green-500 text-white p-2 rounded-md self-center ml-auto">
+        <x-heroicon-o-plus class="h-6 mr-2"/> New Product
+    </a>
+</div>
+
         @if ($message = session('success'))
         <span class="flex flex-row bg-green-200 rounded-md ring-1 ring-green-900 text-green-900 p-4" onclick="">
             {{ $message }} <button class="ml-auto font-extrabold" onclick="this.parentNode.remove()">X</button>
