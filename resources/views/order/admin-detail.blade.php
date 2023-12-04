@@ -68,18 +68,34 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 py-2 bg-white p-2 rounded-md shadow-md">
-                    @if ($order->status == 'Pending')
-                        <a class="bg-green-500 text-white p-2 rounded-md text-center" href="{{ $order->payment_url }}" target="_blank" rel="noopener noreferrer">
-                            Make Payment
-                        </a>
-                    @elseif($order->status == 'Shipping')
-                        <form class="flex flex-col gap-2" action="{{ url('orders/' . $order->id . '/mark-complete') }}" method="POST">
+                        <h1 class="mb-2">Actions</h1>
+                        <form class="flex flex-col gap-2" action="{{ url('admin/order/' . $order->id . '/mark-pending') }}" method="POST">
+                            @csrf
+                            <button class="bg-orange-400 text-white p-2 rounded-md" type="submit">Mark Pending</button>
+                        </form>
+                        <form class="flex flex-col gap-2" action="{{ url('admin/order/' . $order->id . '/mark-paid') }}" method="POST">
+                            @csrf
+                            <button class="bg-yellow-400 text-white p-2 rounded-md" type="submit">Mark Paid</button>
+                        </form>
+                        <form class="flex flex-col gap-2" action="{{ url('admin/order/' . $order->id . '/mark-shipping') }}" method="POST">
+                            @csrf
+                            <label for="tracking_number">Tracking Number</label>
+                            <div class="flex flex-col gap-2">
+                                <input type="text" name="tracking_number" class="rounded-md ring-gray-500 ring-2 p-2 bg-gray-100 drop-shadow-lg w-full" value="{{ old('tracking_number') ?? $order->tracking_number }}" id="tracking_number" placeholder="Enter Tracking Number...">
+                                @error('tracking_number')
+                                    <h5 class="text-red-400 font-thin text-sm mt-[-0.5rem]">{{ $message }}</h5>
+                                @enderror
+                                <button class="bg-blue-400 text-white p-2 rounded-md" type="submit">Mark Shipping</button>
+                            </div>
+                        </form>
+                        <form class="flex flex-col gap-2" action="{{ url('admin/order/' . $order->id . '/mark-complete') }}" method="POST">
                             @csrf
                             <button class="bg-green-500 text-white p-2 rounded-md" type="submit">Mark Complete</button>
                         </form>
-                    @else
-                        <p class="text-center">Nothing to do</p>
-                    @endif
+                        <form class="flex flex-col gap-2" action="{{ url('admin/order/' . $order->id . '/mark-cancelled') }}" method="POST">
+                            @csrf
+                            <button class="bg-red-500 text-white p-2 rounded-md" type="submit">Mark Cancelled</button>
+                        </form>
                     </div>
                 </div>
             </div>

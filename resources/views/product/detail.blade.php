@@ -30,6 +30,16 @@
 <div class="flex flex-col gap-3 p-4 min-h-full w-full bg-green-50">
     <section class="flex flex-col gap-2">
         <span class="text-2xl font-extrabold">Product Detail</span>
+        @if ($message = session('cart_success'))
+        <span class="flex flex-row bg-green-200 rounded-md ring-1 ring-green-900 text-green-900 p-4" onclick="">
+            {{ $message }} <button class="ml-auto font-extrabold" onclick="this.parentNode.remove()">X</button>
+        </span>
+        @endif
+        @if ($message = session('cart_error'))
+        <span class="flex flex-row bg-red-200 rounded-md ring-1 ring-red-900 text-red-900 p-4" onclick="">
+            {{ $message }} <button class="ml-auto font-extrabold" onclick="this.parentNode.remove()">X</button>
+        </span>
+        @endif
         <div class="flex bg-white rounded-md p-2 gap-4 shadow-md">
             <div class="flex flex-col max-w-[25%]">
                 <div class="flex relative">

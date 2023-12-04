@@ -47,7 +47,7 @@
                                     {{$product->stock}}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{$product->is_public ? 'Public' : 'Private'}}
+                                    {{$product->is_public ? 'Public' : 'Draft'}}
                                 <td class="px-6 py-4">
                                     Rp. {{number_format($product->price, thousands_separator: ".")}}
                                 </td>

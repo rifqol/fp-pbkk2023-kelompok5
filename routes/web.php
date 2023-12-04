@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatController;
@@ -33,6 +34,20 @@ Route::get('test', function() {
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', function() {
         return redirect('/dashboard');
+    });
+
+    Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
+        Route::get('/', [AdminController::class, 'dashboard']);
+        Route::group(['prefix' => 'order'], function() {
+            Route::get('/', [AdminController::class, 'orders']);
+            Route::get('{id}', [OrderController::class, 'adminShowOrder'])->whereNumber('id');
+            Route::post('{id}/mark-pending', [OrderController::class, 'adminMarkPending'])->whereNumber('id');
+            Route::post('{id}/mark-paid', [OrderController::class, 'adminMarkPaid'])->whereNumber('id');
+            Route::post('{id}/mark-shipping', [OrderController::class, 'adminMarkShipping'])->whereNumber('id');
+            Route::post('{id}/mark-complete', [OrderController::class, 'adminMarkComplete'])->whereNumber('id');
+            Route::post('{id}/mark-cancelled', [OrderController::class, 'adminMarkCancelled'])->whereNumber('id');
+        });
+        
     });
     
     Route::group(['prefix' => 'dashboard'], function() {
