@@ -102,19 +102,37 @@
     <section class="flex flex-col gap-2">
         <span class="text-2xl font-extrabold">Product Reviews</span>
         <ul class="flex flex-col bg-white rounded-md p-4 shadow-md max-h-screen overflow-y-auto">
+            @if ($user_review)
+            <li class="border-b-[1px] py-2">
+                <div class="flex gap-0">
+                    @for ($i = 0; $i < $user_review->rating; $i++)
+                    <x-heroicon-s-star class="h-6 text-yellow-400"/>
+                    @endfor
+                </div>
+                <div class="flex gap-2 py-2">
+                    <img class="rounded-full w-10 h-10 object-cover shadow-md" src="{{$user_review->user->photo_url}}" alt="">
+                    <a class="self-center text-md">You</a>
+                </div>
+                <p>{{ $user_review->review }}</p>
+            </li>
+            @endif
             @foreach ($product->reviews as $review)
-            <li class="{{!$loop->last ? 'border-b-[1px]' : ''}} py-2">
+            @if ($review->user->id == Auth::user()->id)
+                
+            @else
+            <li class="border-b-[1px] py-2">
                 <div class="flex gap-0">
                     @for ($i = 0; $i < $review->rating; $i++)
                     <x-heroicon-s-star class="h-6 text-yellow-400"/>
                     @endfor
                 </div>
                 <div class="flex gap-2 py-2">
-                    <img class="rounded-full w-10 h-10 object-cover shadow-md" src="{{$product->seller->photo_url}}" alt="">
-                    <a class="self-center text-md">{{$product->seller->name}}</a>
+                    <img class="rounded-full w-10 h-10 object-cover shadow-md" src="{{$review->user->photo_url}}" alt="">
+                    <a class="self-center text-md">{{$review->user->name}}</a>
                 </div>
                 <p>{{ $review->review }}</p>
             </li>
+            @endif
             @endforeach
         </ul>
     </section>

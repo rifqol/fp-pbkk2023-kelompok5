@@ -6,6 +6,7 @@ use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\ProductReview;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -53,8 +54,9 @@ class ProductController extends Controller
             ->withCount('reviews')
             ->where('id', $id)
             ->first();
+        $user_review = ProductReview::where('user_id', $user->id)->where('product_id', $id)->first();
         if(!$product || ($product->is_deleted && !$user->is_admin) ) return redirect('products'); 
-        return view('product.detail')->with(['product' => $product]);
+    return view('product.detail')->with(['product' => $product, 'user_review' => $user_review]);
     }
 
     public function userIndex(Request $request) 
