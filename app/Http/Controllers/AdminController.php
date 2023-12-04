@@ -39,6 +39,12 @@ class AdminController extends Controller
                 $query->whereIn('status', ['Complete']);
             }], 'product_orders.quantity')
             ->latest()
+            ->when(request('search'), function($query) {
+                $query->where('name', 'like', '%' . request('search') . '%')
+                ->orWhereHas('seller', function($query) {
+                    $query->where('name', 'like', '%' . request('search') . '%');
+                });
+            })
             ->paginate(20)
             ->withQueryString();
         return view('admin.products')->with(['products' => $products]);
