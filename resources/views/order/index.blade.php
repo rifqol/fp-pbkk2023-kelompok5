@@ -6,6 +6,12 @@
         <div class="flex gap-2">
             <span class="text-2xl font-extrabold my-2"> Your Orders </span>
         </div>
+        <form class="flex items-center gap-2 justify-start"> 
+            <input type="text" class="p-2 border rounded-md w-50" name="search">
+            <button type="submit" class="flex gap-2 bg-green-500 rounded-md p-2">
+                <x-heroicon-o-magnifying-glass class="h-5 text-white"/>
+            </button>
+        </form>  
         @if ($message = session('success'))
         <span class="flex flex-row bg-green-200 rounded-md ring-1 ring-green-900 text-green-900 p-4" onclick="">
             {{ $message }} <button class="ml-auto font-extrabold" onclick="this.parentNode.remove()">X</button>
@@ -52,7 +58,7 @@
                                     {{$order->id}}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{$order->user->name}}
+                                    {{$order->seller->name}}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{$order->shipment_address}}
