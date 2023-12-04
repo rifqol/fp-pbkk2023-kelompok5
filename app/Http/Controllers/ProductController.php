@@ -18,6 +18,9 @@ class ProductController extends Controller
             ->withAvg('reviews as rating', 'rating')
             ->withCount('reviews')
             ->where('is_deleted', false)
+            ->whereHas('seller', function($query) {
+                $query->whereNot('is_banned', true)->whereNot('is_deleted', true);
+            })
             ->when(request('q'), function($query) {
                 $query->where('name', 'like', '%' . request('q') . '%')
                 ->orWhere('description', 'like', '%' . request('q') . '%')

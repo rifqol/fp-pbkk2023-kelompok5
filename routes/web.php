@@ -56,6 +56,11 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('image/{id}/add', [ProductImageController::class, 'store'])->whereNumber('id');
             Route::post('image/{id}/remove', [ProductImageController::class, 'destroy'])->whereNumber('id');
         });
+
+        Route::group(['prefix' => 'user'], function() {
+            Route::get('/', [AdminController::class, 'users']);
+            // Route::get('{id}/edit', )
+        });
     });
     
     Route::group(['prefix' => 'dashboard'], function() {

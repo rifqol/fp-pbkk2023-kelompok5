@@ -175,9 +175,7 @@ class OrderController extends Controller
                 });
                 break;
         }
-
         
-
         $order->save();
 
         return response()->json('Success');

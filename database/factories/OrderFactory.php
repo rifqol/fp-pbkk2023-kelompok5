@@ -30,7 +30,7 @@ class OrderFactory extends Factory
 
         return [
             'region_code' => Region::whereRaw('CHAR_LENGTH(code) = 5')->get(['code'])->random(1)->toArray()[0]['code'],
-            'status' => fake()->randomElement(['Pending', 'Paid', 'Shipping', 'Complete', 'Canceled']),
+            'status' => fake()->randomElement(['Pending', 'Paid', 'Shipping', 'Complete', 'Cancelled']),
             'user_id' => User::factory(),
             'shipment_address' => fake()->address(),
         ];

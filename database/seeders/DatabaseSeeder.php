@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'sonwukong233@gmail.com',
             'phone' => '081081081081',
             'is_admin' => true,
+            'is_banned' => false,
         ])->each(function($user) {
             Product::factory(rand(1,10))->create(['seller_id' => $user->id])->each(function ($product) {
                 ProductImage::factory(rand(1,3))->create(['product_id' => $product->id]);
@@ -37,7 +38,7 @@ class DatabaseSeeder extends Seeder
 
         // User::factory(1)->create();
 
-        User::factory(10)->create()->each(function ($user) {
+        User::factory(10)->create(['is_banned' => false])->each(function ($user) {
             Product::factory(rand(1,10))->create(['seller_id' => $user->id])->each(function ($product) {
                 ProductImage::factory(rand(1,3))->create(['product_id' => $product->id]);
                 ProductReview::factory(rand(1,5))->create(['user_id' => 1, 'product_id' => $product->id]);
@@ -47,7 +48,7 @@ class DatabaseSeeder extends Seeder
         $products = Product::all();
         $sellers = User::whereHas('products')->get(['id']);
 
-        User::factory(10)->create()->each(function($user) use($products, $sellers) {
+        User::factory(10)->create(['is_banned' => false])->each(function($user) use($products, $sellers) {
             $seller_id = $sellers->random()->id;
             $seller_product = $products->where('seller_id', $seller_id);
             Order::factory(rand(1,3))->create(['user_id' => $user->id, 'seller_id' => $seller_id])->each(function($order) use($products, $seller_product) {

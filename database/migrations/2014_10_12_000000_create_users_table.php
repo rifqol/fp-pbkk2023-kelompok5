@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('username');
-            $table->string('email')->unique();
+            $table->string('username')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->string('phone');
             $table->string('region_code', 13);
             $table->timestamp('email_verified_at')->nullable();
@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('bank_actnumber')->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->boolean('is_banned')->default(false);
+            $table->boolean('is_deleted')->default(false);
             $table->foreign('region_code')->references('code')->on('regions');
             $table->rememberToken();
             $table->timestamps();

@@ -43,4 +43,13 @@ class AdminController extends Controller
             ->withQueryString();
         return view('admin.products')->with(['products' => $products]);
     }
+
+    public function users(Request $request)
+    {
+        $users = User::withCount(['orders', 'products', 'incomingOrders'])
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
+        return view('admin.users')->with(['users' => $users]);
+    }
 }

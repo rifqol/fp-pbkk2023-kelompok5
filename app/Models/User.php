@@ -29,6 +29,9 @@ class User extends Authenticatable
         'region_code',
         'bank_actnumber',
         'photo_url',
+        'is_admin',
+        'is_banned',
+        'is_deleted',
     ];
 
     /**
