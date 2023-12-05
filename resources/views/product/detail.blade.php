@@ -85,7 +85,7 @@
                         <button type="button" onclick="this.nextElementSibling.stepDown()" class="bg-green-500 rounded-md text-white">
                             <x-heroicon-o-minus-small class="h-6"/>
                         </button>
-                        <input class="rounded-md ring-gray-500 ring-2 p-2 bg-gray-100 drop-shadow-lg w-full" type="number" name="quantity" id="quantity" value="1" min="1" step="1" onchange="this.value = Math.max(0, Math.min({{$product->stock}}, parseInt(this.value)));">
+                        <input class="rounded-md ring-gray-500 ring-2 p-2 bg-gray-100 drop-shadow-lg w-1/2" type="number" name="quantity" id="quantity" value="1" min="1" step="1" onchange="this.value = Math.max(0, Math.min({{$product->stock}}, parseInt(this.value)));">
                         <button type="button" onclick="this.previousElementSibling.stepUp()" class="bg-green-500 rounded-md text-white">
                             <x-heroicon-o-plus-small class="h-6"/>
                         </button>

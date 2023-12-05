@@ -89,6 +89,7 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     Route::get('users', [UserController::class, 'index']);
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('user.detail');
 
     Route::group(['prefix' => 'chats'], function() {
         Route::get('/', [ChatController::class, 'index']);

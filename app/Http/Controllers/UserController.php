@@ -71,4 +71,12 @@ class UserController extends Controller
 
         return redirect('login')->with('success', 'Succesfuly registered!');
     }
+
+    public function show($id)
+    {
+        $user = User::find($id);
+        $products = $user->products()->paginate(20)->withQueryString();
+
+        return view('user.detail', ['user' => $user, 'products' => $products]);
+    }
 }
