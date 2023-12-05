@@ -162,7 +162,11 @@ class OrderController extends Controller
     public function xenditNotification(Request $request)
     {
         $apiInstance = new InvoiceApi();
-        $invoice = $apiInstance->getInvoices(null, $request->external_id)[0];
+        $invoice = $apiInstance->getInvoices(null, $request->external_id);
+
+        if(!$invoice) return response()->json(['message' => 'invoice not found'], 404);
+
+        $invoice = $invoice[0];
         $order = Order::where('external_id', $request->external_id)->first();
 
         if(!$order) return response()->json(['message' => 'order not found'], 404);
