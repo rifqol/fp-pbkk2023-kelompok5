@@ -89,12 +89,23 @@
                         <button type="button" onclick="this.previousElementSibling.stepUp()" class="bg-green-500 rounded-md text-white">
                             <x-heroicon-o-plus-small class="h-6"/>
                         </button>
-                        <h2 class="w-full self-center">Total Stock: {{ $product->stock }}</h2>
+                        <h2 class="w-full self-center line-clamp-2">Total Stock: {{ $product->stock }}</h2>
                     </div>
-                    <button type="submit" class="flex bg-green-500 text-white rounded-md p-2 gap-2">
-                        <x-heroicon-o-shopping-cart class="h-6"/>
-                        Add To Cart
-                    </button>
+                    <div class="flex">
+                        <button type="submit" class="flex items-center bg-green-500 text-white rounded-md p-2" style="flex-basis: 75%;">
+                            <x-heroicon-o-shopping-cart class="h-6"/>
+                            <span class="ml-2 text-sm">Add To Cart</span>
+                        </button>
+                        @if(isset($product) && isset($product->seller->id))                        
+                        <a href="{{ url('/chats/'. $product->seller->id)}}" class="{{ (request()->is('chats')) || request()->is('chats/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex items-center justify-center rounded-md p-2 ml-2 shadow-md hover:ring-2 hover:ring-green-900" style="flex-basis: 25%;">
+                            <div class="flex items-center">
+                                <x-heroicon-o-chat-bubble-oval-left-ellipsis class="w-6 h-auto"/>
+                            </div>
+                        </a>
+                        @endif
+                    </div>
+
+
                 </form>
             </div>
         </div>
