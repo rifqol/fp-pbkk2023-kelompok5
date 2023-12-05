@@ -11,7 +11,7 @@
                 <button type="submit" class="flex gap-2 bg-green-500 rounded-md p-2 items-center justify-center">
                     <x-heroicon-o-magnifying-glass class="h-5 text-white"/>
                 </button>
-        </form>
+            </form>
         </div>
 
         @if ($message = session('success'))
