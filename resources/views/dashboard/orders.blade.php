@@ -13,7 +13,6 @@
                 </button>
             </form>
         </div>
-
         @if ($message = session('success'))
         <span class="flex flex-row bg-green-200 rounded-md ring-1 ring-green-900 text-green-900 p-4" onclick="">
             {{ $message }} <button class="ml-auto font-extrabold" onclick="this.parentNode.remove()">X</button>
@@ -21,7 +20,9 @@
         @endif
         <div class="bg-white shadow-md p-4 rounded-md">
             <div class="flex flex-col min-h-[10rem] gap-2">
-                @if ($incoming_orders->count() == 0)
+                @if (request('search') != null)
+                    <span class="self-center my-auto text-gray-500 text-lg"> Can't find what you are looking for... </span>
+                @elseif ($incoming_orders->count() == 0)
                 <div class="flex flex-col gap-4 self-center my-auto">
                     <span class="self-center text-gray-500 text-lg"> No pending orders for now... </span>
                 </div>

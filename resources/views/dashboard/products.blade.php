@@ -24,7 +24,9 @@
         @endif
         <div class="bg-white shadow-md p-4 rounded-md">
             <div class="flex flex-col min-h-[10rem] gap-2">
-                @if ($products->count() == 0)
+                @if (request('search') != null)
+                <span class="self-center my-auto text-gray-500 text-lg"> Can't find what you are looking for... </span>
+                @elseif ($products->count() == 0)
                 <div class="flex flex-col gap-4 self-center my-auto">
                     <span class="self-center text-gray-500 text-lg"> You don't have any products for sale yet... </span>
                     <button class="self-center bg-green-400 text-white p-2 rounded-md">Add Product</button>

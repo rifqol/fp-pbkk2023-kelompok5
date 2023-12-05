@@ -29,9 +29,11 @@ class OrderController extends Controller
             ->withCount(['products'])
             ->latest()
             ->when(request('search'), function($query) {
-                $query->where('id', 'like', '%' . request('search') . '%')
-                ->orWhereHas('user', function($query) {
-                    $query->where('name', 'like', '%' . request('search') . '%');
+                $query->where(function($query) {
+                    $query->where('id', 'like', '%' . request('search') . '%')
+                        ->orWhereHas('user', function($query) {
+                        $query->where('name', 'like', '%' . request('search') . '%');
+                    });
                 });
             })
             ->paginate(20)
@@ -84,9 +86,11 @@ class OrderController extends Controller
             ->withCount(['products'])
             ->latest()
             ->when(request('search'), function($query) {
-                $query->where('id', 'like', '%' . request('search') . '%')
-                ->orWhereHas('seller', function($query) {
-                    $query->where('name', 'like', '%' . request('search') . '%');
+                $query->where(function($query) {
+                    $query->where('id', 'like', '%' . request('search') . '%')
+                        ->orWhereHas('seller', function($query) {
+                        $query->where('name', 'like', '%' . request('search') . '%');
+                    });
                 });
             })
             ->paginate(20)
@@ -213,7 +217,7 @@ class OrderController extends Controller
         $user = $request->user();
 
         $order = Order::where('id', $id)->first();
-        if(!$order || $order->seller_id != $user->id && !$user->is_admin) return redirect('orders');
+        if(!$order || $order->user_id != $user->id && !$user->is_admin) return redirect('orders');
         if($order->status != 'Shipping') return redirect('orders');
 
         $order->status = 'Complete';
