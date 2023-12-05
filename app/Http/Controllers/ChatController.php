@@ -12,20 +12,28 @@ use Illuminate\Support\Facades\DB;
 class ChatController extends Controller
 {
     public function index(Request $request)
-    {
-        $user = $request->user();
+{
+    $user = $request->user();
 
-        $users = DB::table('users')
-            ->join('chats', function(JoinClause $join) {
-                $join->on('users.id', '=', 'chats.sender_id')->orOn('users.id', '=', 'chats.receiver_id');
-            })->select('users.*')->distinct()
-            ->where('chats.sender_id', '=', $user->id)->where('users.id', '!=', $user->id)
-            ->orWhere('chats.receiver_id', '=', $user->id)->where('users.id', '!=', $user->id)
-            ->get();
-        // dd($users);
-        return view('chat.index')->with(['users' => $users]);
-    }
+    $users = DB::table('users')
+        ->join('chats', function ($join) use ($user) {
+            $join->on('users.id', '=', 'chats.sender_id')->orOn('users.id', '=', 'chats.receiver_id');
+        })
+        ->select('users.*')->distinct()
+        ->where(function ($query) use ($user) {
+            $query->where('chats.sender_id', '=', $user->id)
+                ->orWhere('chats.receiver_id', '=', $user->id);
+        })
+        ->where('users.id', '!=', $user->id)
+        ->when(request('search'), function ($query, $search) {
+            $query->where('users.name', 'like', '%' . $search . '%');
+        })
+        ->get();
 
+    return view('chat.index')->with(['users' => $users]);
+}
+
+    
     public function store(Request $request, $id)
     {
         $user = $request->user();

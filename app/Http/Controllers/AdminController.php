@@ -23,14 +23,42 @@ class AdminController extends Controller
         ]);
     }
 
+    // public function orders(Request $request)
+    // {
+    //     $orders = Order::with(['seller', 'user', 'user.region'])
+            
+    //         ->when(request('search'), function ($query) {
+    //             $query->where('id', 'like', '%' . request('search') . '%')
+    //                 ->orWhereHas('seller', function ($query) {
+    //                     $query->where('name', 'like', '%' . request('search') . '%');
+    //                 })
+    //                 ->orWhereHas('seller', function ($query) {
+    //                     $query->where('name', 'like', '%' . request('search') . '%');
+    //               });
+    //         })
+    //         ->latest()
+    //         ->paginate(20)->withQueryString();
+    //     return view('admin.orders')->with(['orders' => $orders]);
+    // }
+
     public function orders(Request $request)
     {
         $orders = Order::with(['seller', 'user', 'user.region'])
-            ->latest()
-            ->paginate(20)
-            ->withQueryString();
-        return view('admin.orders')->with(['orders' => $orders]);
+            ->when(request('search'), function ($query) {
+                $query->where('id', 'like', '%' . request('search') . '%')
+                    ->orWhereHas('seller', function ($query) {
+                        $query->where('name', 'like', '%' . request('search') . '%');
+                    })
+                    ->orWhereHas('user', function ($query) {
+                        $query->where('name', 'like', '%' . request('search') . '%');
+                    });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+    
+        return view('admin.orders')->with('orders', $orders);
     }
+    
 
     public function products(Request $request)
     {
@@ -39,6 +67,12 @@ class AdminController extends Controller
                 $query->whereIn('status', ['Complete']);
             }], 'product_orders.quantity')
             ->latest()
+            ->when(request('search'), function($query) {
+                $query->where('name', 'like', '%' . request('search') . '%')
+                ->orWhereHas('seller', function($query) {
+                    $query->where('name', 'like', '%' . request('search') . '%');
+                });
+            })
             ->paginate(20)
             ->withQueryString();
         return view('admin.products')->with(['products' => $products]);

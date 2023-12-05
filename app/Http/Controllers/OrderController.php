@@ -82,6 +82,12 @@ class OrderController extends Controller
             ->with(['seller'])
             ->withCount(['products'])
             ->latest()
+            ->when(request('search'), function($query) {
+                $query->where('id', 'like', '%' . request('search') . '%')
+                ->orWhereHas('seller', function($query) {
+                    $query->where('name', 'like', '%' . request('search') . '%');
+                });
+            })
             ->paginate(20)
             ->withQueryString();
 

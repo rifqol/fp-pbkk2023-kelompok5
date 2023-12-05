@@ -3,6 +3,12 @@
 @section('main')
 <div class="flex flex-col gap-3 p-4 min-h-full w-full  bg-slate-200">
     <h1 class="text-2xl font-extrabold">Chats</h1>
+        <form class="flex items-center gap-2 justify-start"> 
+            <input type="text" class="p-2 border rounded-md w-50" name="search">
+            <button type="submit" class="flex gap-2 bg-green-500 rounded-md p-2">
+                <x-heroicon-o-magnifying-glass class="h-5 text-white"/>
+            </button>
+        </form>       
     <ul class="flex flex-col gap-4 flex-1 bg-white rounded-xl p-4">
         @foreach ($users as $user)
         <li class="bg-green-500 rounded-xl p-2 drop-shadow-lg font-bold flex items-center">
