@@ -6,6 +6,12 @@
     <section class="flex flex-col gap-2">
         <div class="flex gap-2">
             <span class="text-2xl font-extrabold my-2"> All Users </span>
+            <form class="flex items-center gap-2 flex-grow justify-end"> 
+                <input type="text" class="p-2 border rounded-md w-50" name="search">
+                <button type="submit" class="flex gap-2 bg-green-500 rounded-md p-2 items-center justify-center">
+                    <x-heroicon-o-magnifying-glass class="h-5 text-white"/>
+                </button>
+            </form>
         </div>
         @if ($message = session('success'))
         <span class="flex flex-row bg-green-200 rounded-md ring-1 ring-green-900 text-green-900 p-4" onclick="">

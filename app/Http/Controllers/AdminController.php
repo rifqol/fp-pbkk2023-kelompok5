@@ -82,6 +82,13 @@ class AdminController extends Controller
     {
         $users = User::withCount(['orders', 'products', 'incomingOrders'])
             ->latest()
+            ->when(request('search'), function ($query) {
+                $query->where('id', 'like', '%' . request('search') . '%')
+                    ->orWhere('name', 'like', '%' . request('search') . '%')
+                    ->orWhereHas('region', function ($query) {
+                        $query->where('name', 'like', '%' . request('search') . '%');
+                    });
+            })
             ->paginate(20)
             ->withQueryString();
         return view('admin.users')->with(['users' => $users]);
