@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderMarkShippingRequest;
+use App\Jobs\SendMailToUser;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -148,6 +149,8 @@ class OrderController extends Controller
         $order->external_id = $create_invoice_request['external_id'];
         $order->payment_url = $result['invoice_url'];
         $order->save();
+
+        SendMailToUser::dispatch($user->email, $user->name, url('orders/' . $order->id));
 
         return redirect('orders/' . $order->id);
     }
