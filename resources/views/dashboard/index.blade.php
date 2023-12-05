@@ -70,7 +70,7 @@
         </div>
         <div class="bg-white shadow-md p-4 rounded-md">
             <div class="flex flex-col min-h-[10rem]">
-                @if (!$incoming_orders)
+                @if (!$incoming_orders->count())
                 <span class="self-center my-auto text-gray-500 text-lg"> No pending orders for now... </span>
                 @else
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
