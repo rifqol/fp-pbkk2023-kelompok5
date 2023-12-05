@@ -1,7 +1,7 @@
 @extends('app-layout')
 
 @section('main')
-<div class="flex flex-col gap-3 p-4 min-h-full w-full  bg-slate-200">
+<div class="flex flex-col gap-3 p-4 min-h-full w-full  bg-green-50">
     <h1 class="text-2xl font-extrabold">Chats</h1>
         <form class="flex items-center gap-2 justify-start"> 
             <input type="text" class="p-2 border rounded-md w-50" name="search">

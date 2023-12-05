@@ -1,7 +1,7 @@
 @extends('app-layout')
 
 @section('main')
-<div class="flex flex-col gap-3 p-4 min-h-full w-full bg-slate-200">
+<div class="flex flex-col gap-3 p-4 min-h-full w-full bg-green-50">
     <h1 class="text-2xl font-extrabold ml-5">Users List</h1>
     <ul class="flex flex-col gap-4 flex-1 bg-white rounded-xl p-4">
         @foreach ($users as $user)

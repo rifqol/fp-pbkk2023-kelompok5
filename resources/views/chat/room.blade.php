@@ -29,8 +29,8 @@
 </style>
 
 
-<header class="outline-none bg-gray-100 ring-gray-200 ring-2 round-md text-black py-2 text-center flex items-center justify-between">
-    <div class="flex items-center">
+<header class="bg-slate-50 border-b-2 border-gray-200 py-3 text-center flex items-center justify-between">
+    <div class="flex items-center ml-2 mt-2 justify-between">
         <img src="{{ $chatPartner->photo_url }}" class="w-12 h-12 rounded-full object-cover shadow-md ml-2" alt="{{ $chatPartner->name }}">
         <h1 class="text-xl ml-2">{{ $chatPartner->name }}</h1>
     </div>
@@ -44,7 +44,7 @@
 
 <form id="send_chat" action="{{ url('/chats/' . $receiver_id . '/send') }}" class="flex flex-col gap-2 fixed right-2 bottom-3 w-[75%] max-h-[40vh]" method="post" enctype="multipart/form-data" novalidate>
     @csrf
-    <div class="flex flex-wrap gap-2">
+    <div class="flex flex-wrap gap-2 w-full">
         <input type="message" name="message" class="rounded-md ring-gray-500 ring-2 p-2 bg-gray-100 drop-shadow-lg w-[92.5%]" value="{{ old('message') }}" id="message">
         @error('message')
             <h5 class="text-red-400 font-thin text-sm mt-[-1rem]">{{ $message }}</h5>
