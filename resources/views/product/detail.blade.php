@@ -104,8 +104,6 @@
                         </a>
                         @endif
                     </div>
-
-
                 </form>
             </div>
         </div>
