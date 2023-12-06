@@ -1,7 +1,7 @@
 @extends('app-layout')
 
 @section('main')
-    <div class="container mx-auto mt-8">
+    <div class="flex flex-col gap-3 p-4 min-h-full w-full bg-green-50" >
         <div class="bg-white p-6 rounded shadow-md">
             <h2 class="text-2xl font-semibold mb-6">{{ request()->is('admin/*') ? 'Edit User' : 'Edit Profile' }}</h2>
 

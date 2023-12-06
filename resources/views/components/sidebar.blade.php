@@ -14,9 +14,11 @@
 <div class="flex flex-col bg-slate-50 h-screen p-4 whitespace-[wrap] z-50" id="sidebar">
     <span class="">
         <h1 class="mt-2 mb-4 font-extrabold text-center text-xl">E-Commerce App</h1>
-        <div class="flex mb-2 whitespace-nowrap">
-            <img src="{{Auth::user()->photo_url}}" class="rounded-full w-12 h-12 self-center object-cover drop-shadow-sm" alt="">
-            <h2 class="self-center text-ellipsis overflow-hidden ml-2 drop-shadow-sm" id="user-name">{{Auth::user()->name}}</h2>
+        <div class="flex items-center mb-2 whitespace-nowrap">
+            <img src="{{ Auth::user()->photo_url }}" class="rounded-full w-12 h-12 object-cover drop-shadow-sm" alt="">
+            <a href="{{ route('user.detail', ['id' => Auth::user()->id]) }}" class="ml-2 drop-shadow-sm" id="user-name">
+                <h2 class="text-ellipsis overflow-hidden">{{ Auth::user()->name }}</h2>
+            </a>
         </div>
     </span>
     <nav class="flex flex-col gap-3 h-full shadow-[inset_0px_45px_10px_-50px] w-[calc(100%+2rem)] pt-5 pl-4 pr-2 self-center">
