@@ -46,7 +46,7 @@
             <h2 class="text-xl font-bold ml-3">Data User</h2>
             
             <div class="text-md flex ml-3">
-                @if (Auth::user()->is_admin)
+                @if (Auth::user()->id == $user->id || Auth::user()->is_admin)
                 <a href="{{ url('/users/edit/'. $user->id)}}" class="{{ (request()->is('edit')) || request()->is('edit/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex items-center justify-center rounded-md p-2 ml-2 shadow-md hover:ring-2 hover:ring-green-900" style="flex-basis: 25%;">
                     <div class="flex items-center">
                         <x-heroicon-o-pencil-square class="w-5 h-auto"/>

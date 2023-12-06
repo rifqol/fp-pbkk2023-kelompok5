@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Models\Product;
+use App\Models\Region;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -83,13 +84,15 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-    
-        return view('user.edit', compact('user'));
+        $provinces = Region::whereRaw('CHAR_LENGTH(code) = 2')->get();
+        return view('user.edit', compact('user'))->with(['provinces' => $provinces]);
     }
     
     public function update(Request $request, $id)
     {
         // dd($request);
+        $request_user = $request->user();
+
         $request->validate([
             'name' => 'nullable|max:255',
             'username' => 'nullable|max:255',
@@ -103,15 +106,23 @@ class UserController extends Controller
             'password' => 'nullable|min:4|max:255',
             'photo' => 'nullable|mimes:jpg,png,jpeg|max:2048'
         ]);
+
         
-        $user = User::find($id);
-        $user->update($request->except('photo'));
+        $user = User::where('id', $id)->first();
+
+        if(!$user || $request_user->id != $user->id && !$request_user->is_admin) return redirect('users');
+
+        $user->name = $request->name ?? $user->name;
+        $user->username = $request->username ?? $user->username;
+        $user->email = $request->email ?? $user->email;
+        $user->phone = $request->phone ?? $user->phone;
+        $user->region_code = $request->region_code ?? $user->region_code;
+        $user->password = $request->password ? Hash::make($request->password) : $user->password;
         
-        dd($user);
 
         if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('photos', 'public');
-            $user->photo_url = $photoPath;
+            $path = Storage::put('public/images', $request->photo);
+            $user->photo_url = url(Storage::url($path));
         }
     
         $user->save();
