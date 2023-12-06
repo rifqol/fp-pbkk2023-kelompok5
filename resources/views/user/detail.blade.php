@@ -46,11 +46,13 @@
             <h2 class="text-xl font-bold ml-3">Data User</h2>
             
             <div class="text-md flex ml-3">
-                <a href="{{ url('/chats/'. $user->id)}}" class="{{ (request()->is('chats')) || request()->is('chats/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex items-center justify-center rounded-md p-2 ml-2 shadow-md hover:ring-2 hover:ring-green-900" style="flex-basis: 25%;">
+                @if (Auth::user()->is_admin)
+                <a href="{{ url('/users/edit/'. $user->id)}}" class="{{ (request()->is('edit')) || request()->is('edit/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex items-center justify-center rounded-md p-2 ml-2 shadow-md hover:ring-2 hover:ring-green-900" style="flex-basis: 25%;">
                     <div class="flex items-center">
                         <x-heroicon-o-pencil-square class="w-5 h-auto"/>
                      </div>
                 </a>
+                @endif
 
                 <a href="{{ url('/chats/'. $user->id)}}" class="{{ (request()->is('chats')) || request()->is('chats/*') ? 'bg-green-500 text-white' : 'bg-white'}} flex items-center justify-center rounded-md p-2 ml-2 shadow-md hover:ring-2 hover:ring-green-900" style="flex-basis: 25%;">
                     <div class="flex items-center">
@@ -75,22 +77,6 @@
             </div>
         </div>
 
-        <div class="flex items-center justify start ml-3 mt-3">
-            <x-heroicon-o-phone class="w-8 h-auto"/>
-            <div class="text-md flex flex-col ml-3">
-                <p class="font-bold">{{ $user->phone }}</p>
-                <p class="text-gray-600">Phone Number</p>
-            </div>
-        </div>
-
-        <div class="flex items-center justify start ml-3 mt-3">
-            <x-heroicon-o-building-library class="w-8 h-auto"/>
-            <div class="text-md flex flex-col ml-3">
-                <p class="font-bold">{{ $user->bank_actnumber }}</p>
-                <p class="text-gray-600">Bank Account</p>
-            </div>
-        </div>
-    </div>
 
     <div class="flex flex-col gap-2 bg-white rounded-md p-2 shadow-md mt-4">
         <h2 class="text-xl font-bold ml-3 mt-3">User Product</h2>

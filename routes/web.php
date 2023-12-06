@@ -90,6 +90,10 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('users', [UserController::class, 'index']);
     Route::get('/users/{id}', [UserController::class, 'show'])->name('user.detail');
+    Route::get('/users/edit/{id}',[UserController::class, 'edit'])->name('user.edit');
+    Route::put('/users/edit/{id}', [UserController::class, 'update'])->name('user.update');
+
+
 
     Route::group(['prefix' => 'chats'], function() {
         Route::get('/', [ChatController::class, 'index']);
