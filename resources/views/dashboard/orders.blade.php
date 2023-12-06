@@ -52,6 +52,9 @@
                                 <th scope="col" class="px-6 py-3">
                                     <span class="sr-only">Edit</span>
                                 </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <span class="sr-only">Chat</span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,6 +80,11 @@
                                 </td>
                                 <td class="px-6 py-4 text-right">
                                     <a href="{{url('dashboard/order/' . $incoming_order->id . '/edit')}}" class="font-medium text-blue-600  hover:underline">Edit</a>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <a href="{{ url('/chats/'. $incoming_order->user->id)}}" class="{{ (request()->is('chats')) || request()->is('chats/*') ? 'font-medium text-blue-600  hover:underline' : 'bg-white'}}">
+                                        <x-heroicon-o-chat-bubble-oval-left-ellipsis class="w-6 h-auto"/>
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach
