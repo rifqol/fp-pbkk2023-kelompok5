@@ -59,7 +59,8 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::group(['prefix' => 'user'], function() {
             Route::get('/', [AdminController::class, 'users']);
-            // Route::get('{id}/edit', )
+            Route::get('{id}/edit', [UserController::class, 'edit']);
+            Route::put('{id}/edit', [UserController::class, 'update']);
         });
     });
     
